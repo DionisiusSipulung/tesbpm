@@ -30,6 +30,7 @@
             </h1>
             <p class="text-gray-400 font-bold tracking-[0.3em] uppercase text-[10px] mb-12 italic">Portal SEMA BPM FT UNTAG Samarinda</p>
             
+            <!-- Countdown Container -->
             <div class="flex gap-4 md:gap-8 justify-center items-center mb-16">
                 <div class="text-center">
                     <div id="days" class="text-4xl md:text-6xl font-black text-white italic tracking-tighter">00</div>
@@ -52,6 +53,7 @@
                 </div>
             </div>
 
+            <!-- Tombol Skip dengan Password -->
             <button onclick="adminSkipWithAuth()" class="mx-auto bg-white/5 hover:bg-white/10 text-gray-500 hover:text-white text-[9px] font-black py-3 px-8 rounded-full border border-white/10 transition uppercase tracking-widest">
                 Skip Overlay (Admin Only)
             </button>
@@ -65,6 +67,7 @@
                 SEMABPM<span class="text-gray-800">FT</span>
             </div>
             
+            <!-- Menu Sebelum Login -->
             <div id="publicMenu" class="md:flex space-x-8 items-center font-semibold text-sm">
                 <a href="#home" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
                 <div class="relative dropdown">
@@ -80,6 +83,7 @@
                 <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
             </div>
 
+            <!-- Menu Setelah Login -->
             <div id="userMenu" class="hidden flex items-center gap-4">
                 <span class="text-sm font-bold text-gray-700">Halo, <span id="userNameDisplay" class="text-blue-600">Mahasiswa</span></span>
                 <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
@@ -184,25 +188,22 @@
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-center text-3xl font-black mb-16 uppercase italic tracking-tighter text-blue-500">Program Studi</h2>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <!-- TEKNIK SIPIL -->
-                    <div onclick="toggleDetailSipil()" class="bg-gray-800 p-8 rounded-3xl border-b-4 border-blue-600 shadow-2xl cursor-pointer hover:scale-105 transition group">
-                        <h3 class="text-2xl font-extrabold mb-6 italic text-blue-400 uppercase tracking-tighter group-hover:text-white transition">Teknik Sipil</h3>
-                        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4 italic">Klik untuk Detail Praktikum & Berkas</p>
-                        <ul class="text-sm italic space-y-4 text-gray-300 opacity-60">
-                            <li>01. Ilmu Ukur Tanah</li>
-                            <li>02. Mekanika Tanah</li>
-                            <li>03. Hidrolika</li>
-                            <li>04. Beton</li>
-                            <li>05. Bahan Jalan</li>
+                    <div class="bg-gray-800 p-8 rounded-3xl border-b-4 border-blue-600 shadow-2xl">
+                        <h3 class="text-2xl font-extrabold mb-6 italic text-blue-400 uppercase tracking-tighter">Teknik Sipil</h3>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Daftar Praktikum:</p>
+                        <ul class="text-sm italic space-y-4 text-gray-300">
+                            <li>01. Mekanika Tanah</li>
+                            <li>02. Struktur Beton</li>
+                            <li>03. Analisis Poligon Batang</li>
+                            <li>04. Mekanika Fluida</li>
+                            <li>05. Uji Bahan Konstruksi</li>
                         </ul>
                     </div>
-                    <!-- ARSITEKTUR -->
-                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center opacity-50">
+                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center">
                         <h3 class="text-2xl font-bold mb-3 italic text-gray-500 uppercase tracking-tighter">Arsitektur</h3>
                         <span class="text-[10px] font-black bg-gray-700 px-3 py-1 rounded-full text-gray-400 uppercase italic">Coming Soon</span>
                     </div>
-                    <!-- PWK -->
-                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center opacity-50">
+                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center">
                         <h3 class="text-2xl font-bold mb-3 italic text-gray-500 uppercase tracking-tighter">PWK</h3>
                         <span class="text-[10px] font-black bg-gray-700 px-3 py-1 rounded-full text-gray-400 uppercase italic">Coming Soon</span>
                     </div>
@@ -291,56 +292,6 @@
         </div>
     </div>
 
-    <!-- MODAL DETAIL SIPIL -->
-    <div id="detailSipilModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/80 p-4">
-        <div class="bg-white rounded-[2.5rem] max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-fade">
-            <button onclick="toggleDetailSipil()" class="absolute top-6 right-8 text-gray-400 hover:text-black text-4xl font-light">&times;</button>
-            
-            <div class="p-8 md:p-12">
-                <h2 class="text-3xl font-black mb-6 text-blue-600 uppercase italic tracking-tighter border-b-4 border-blue-600 inline-block">Teknik Sipil</h2>
-                
-                <div class="prose prose-blue max-w-none text-gray-700 italic leading-relaxed space-y-6">
-                    <p>
-                        Praktikum merupakan salah satu kegiatan perkuliahan untuk menunjang skill mahasiswa ketika lulus dan terjun di industri konstruksi. Kegiatan ini berupa rangkaian aktivitas di laboratorium maupun di lapangan dimana mahasiswa melakukan pengukuran, pengujian, dan penghitungan terhadap objek konstruksi langsung.
-                    </p>
-
-                    <div class="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-500">
-                        <p class="font-bold text-blue-800 mb-4 uppercase tracking-tight">Daftar Praktikum Wajib (UNTAG Samarinda):</p>
-                        <ul class="space-y-4 ml-4">
-                            <li><span class="font-black text-blue-600">1.</span> Praktikum Ilmu Ukur Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 3</span></li>
-                            <li><span class="font-black text-blue-600">2.</span> Praktikum Mekanika Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span></li>
-                            <li><span class="font-black text-blue-600">3.</span> Praktikum Hidrolika - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span></li>
-                            <li>
-                                <span class="font-black text-blue-600">4.</span> Praktikum Beton - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span>
-                                <div class="mt-2 text-sm text-gray-600 bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
-                                    <p class="mb-2">Beton merupakan penopang vital. Praktikum ini menguji kekuatan beton, berat jenis, kadar lumpur, dan kadar air campuran, serta pengujian <i>slump</i> dan kuat tekan.</p>
-                                    <p class="text-[10px] font-black uppercase text-red-500 italic">Prasyarat: Teknologi Bahan Konstruksi</p>
-                                </div>
-                            </li>
-                            <li><span class="font-black text-blue-600">5.</span> Praktikum Bahan Jalan - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span></li>
-                        </ul>
-                    </div>
-
-                    <div class="space-y-4">
-                        <h3 class="text-xl font-black uppercase italic tracking-tighter text-gray-900">Alur & Syarat Pengajuan</h3>
-                        <p>Mahasiswa harus menginput mata kuliah di <b>KRS</b>, disetujui dosen wali, dan telah lulus teori pendukung di kelas.</p>
-                        
-                        <div class="bg-gray-900 text-white p-8 rounded-[2rem] shadow-xl">
-                            <p class="text-blue-400 font-bold uppercase tracking-widest text-[10px] mb-4">Berkas yang harus dikumpulkan:</p>
-                            <ol class="space-y-2 text-sm font-medium">
-                                <li class="flex gap-3"><span class="text-blue-500 font-black">01.</span> KHS yang dileges basah fakultas</li>
-                                <li class="flex gap-3"><span class="text-blue-500 font-black">02.</span> Kartu Rencana Studi (KRS)</li>
-                                <li class="flex gap-3"><span class="text-blue-500 font-black">03.</span> Slip Bukti Pembayaran SKS</li>
-                                <li class="flex gap-3"><span class="text-blue-500 font-black">04.</span> Pas Photo Berwarna 3x4 (3 lembar)</li>
-                                <li class="flex gap-3"><span class="text-blue-500 font-black">05.</span> <a href="#" class="text-yellow-400 underline hover:text-yellow-300 italic">Formulir Praktikum (Unduh di sini)</a></li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <footer class="py-12 text-center text-gray-400 text-[10px] border-t bg-white uppercase tracking-[0.2em] font-black">
         <p>&copy; 2026 SEMA BPM FT UNTAG Samarinda</p>
     </footer>
@@ -368,45 +319,56 @@
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-            if (distance < 0) { closeComingSoon(); return; }
+
+            if (distance < 0) {
+                closeComingSoon();
+                return;
+            }
+
             const d = Math.floor(distance / (1000 * 60 * 60 * 24));
             const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((distance % (1000 * 60)) / 1000);
+
             document.getElementById("days").innerText = d < 10 ? "0"+d : d;
             document.getElementById("hours").innerText = h < 10 ? "0"+h : h;
             document.getElementById("minutes").innerText = m < 10 ? "0"+m : m;
             document.getElementById("seconds").innerText = s < 10 ? "0"+s : s;
         }
+
         setInterval(updateCountdown, 1000);
 
+        // FUNGSI SKIP DENGAN PASSWORD
         function adminSkipWithAuth() {
             const pass = prompt("Masukkan Kata Sandi Admin untuk melewati overlay:");
-            if (pass === "adminFT2026") { closeComingSoon(); }
-            else if (pass !== null) { alert("Sandi Salah!"); }
+            const adminPass = "adminFT2026"; // GANTI SANDI DI SINI
+            
+            if (pass === adminPass) {
+                closeComingSoon();
+            } else if (pass !== null) {
+                alert("Sandi Salah! Akses Ditolak.");
+            }
         }
 
         function closeComingSoon() {
             const layer = document.getElementById('comingSoonLayer');
             layer.style.opacity = '0';
-            setTimeout(() => { layer.classList.add('hidden'); document.body.classList.remove('lock-scroll'); }, 1000);
+            setTimeout(() => {
+                layer.classList.add('hidden');
+                document.body.classList.remove('lock-scroll');
+            }, 1000);
         }
 
-        // FUNGSI UMUM & MODAL
+        // FUNGSI UMUM
         function toggleAuthModal() { document.getElementById('authModal').classList.toggle('hidden'); }
         function toggleAspirasiModal() { document.getElementById('aspirasiModal').classList.toggle('hidden'); }
-        function toggleDetailSipil() {
-            const modal = document.getElementById('detailSipilModal');
-            modal.classList.toggle('hidden');
-            document.body.style.overflow = modal.classList.contains('hidden') ? 'auto' : 'hidden';
-        }
         function switchAuth() { 
             document.getElementById('loginForm').classList.toggle('hidden');
             document.getElementById('signupForm').classList.toggle('hidden');
         }
 
         function openTab(evt, tabName) {
-            let i, tabcontent, tablinks;
+            var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
             tablinks = document.getElementsByClassName("tab-btn");
@@ -415,14 +377,13 @@
             evt.currentTarget.classList.add("active");
         }
 
-        // LOGIKA FIREBASE
         async function handleLogin() {
             const user = document.getElementById('loginUser').value;
             const pass = document.getElementById('loginPass').value;
             try {
                 await auth.signInWithEmailAndPassword(`${user.toLowerCase().trim()}@bpmsenat.com`, pass);
                 toggleAuthModal();
-            } catch (e) { alert("Login Gagal!"); }
+            } catch (e) { alert("Login Gagal! Pastikan username/password benar."); }
         }
 
         async function handleSignup() {
@@ -432,7 +393,11 @@
             if(!nama || !user || !pass) return alert("Isi semua data!");
             try {
                 const res = await auth.createUserWithEmailAndPassword(`${user.toLowerCase().trim()}@bpmsenat.com`, pass);
-                await db.collection("users").doc(res.user.uid).set({ nama_lengkap: nama, username: user, role: "mahasiswa" });
+                await db.collection("users").doc(res.user.uid).set({
+                    nama_lengkap: nama,
+                    username: user,
+                    role: "mahasiswa" 
+                });
                 alert("Berhasil Daftar!");
                 switchAuth();
             } catch (e) { alert("Pendaftaran Gagal."); }
@@ -446,10 +411,12 @@
                 document.getElementById('loginBtnNav').classList.add('hidden');
                 document.getElementById('dashboardHome').classList.remove('hidden');
                 document.getElementById('userMenu').classList.remove('hidden');
+                
                 db.collection("users").doc(user.uid).get().then(doc => {
                     if (doc.exists) {
                         const userData = doc.data();
                         document.getElementById('userNameDisplay').innerText = (userData.nama_lengkap || user.email.split('@')[0]).toUpperCase();
+                        
                         if(userData.role === 'admin') {
                             document.getElementById('adminPanel').classList.remove('hidden');
                             loadAspirasiForAdmin(); 
@@ -473,28 +440,31 @@
                             <td class="p-6 text-center">
                                 <button onclick="deleteAspirasi('${doc.id}')" class="bg-red-50 text-red-500 text-[10px] font-black px-4 py-2 rounded-xl hover:bg-red-600 hover:text-white transition uppercase">Hapus</button>
                             </td>
-                        </tr>`;
+                        </tr>
+                    `;
                 });
             });
         }
 
         async function deleteAspirasi(id) {
-            if(confirm("Hapus aspirasi ini?")) { await db.collection("aspirasi").doc(id).delete(); }
+            if(confirm("Hapus aspirasi ini secara permanen?")) {
+                await db.collection("aspirasi").doc(id).delete();
+            }
         }
 
         async function submitAspirasi() {
             const msg = document.getElementById('aspirasiMsg').value;
-            if(!msg.trim()) return alert("Tuliskan pesan.");
+            if(!msg.trim()) return alert("Tuliskan pesan Anda.");
             try {
                 await db.collection("aspirasi").add({
                     uid: auth.currentUser.uid,
                     pesan: msg,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                alert("Terkirim!");
+                alert("Aspirasi Anda telah terkirim ke sistem!");
                 document.getElementById('aspirasiMsg').value = "";
                 toggleAspirasiModal();
-            } catch (e) { alert("Gagal."); }
+            } catch (e) { alert("Gagal mengirim."); }
         }
     </script>
 </body>
