@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | SEMA BPM FT UNTAG Samarinda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; overflow: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade { animation: fadeInDown 1s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
 
+    <!-- OVERLAY COMING SOON (Layar Depan) -->
+    <div class="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75">
+        <div class="text-center px-6 animate-fade">
+            <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter mb-4">
+                COMING <span class="text-blue-500">SOON</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto mb-10">
+                Website Resmi SEMA BPM Fakultas Teknik UNTAG Samarinda sedang dalam tahap pengembangan.
+            </p>
+            
+            <!-- HITUNG MUNDUR 500 JAM -->
+            <div class="flex justify-center gap-4">
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                    <span id="hours" class="block text-3xl md:text-4xl font-bold text-white">500</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Jam</span>
+                </div>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                    <span id="minutes" class="block text-3xl md:text-4xl font-bold text-white">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Menit</span>
+                </div>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                    <span id="seconds" class="block text-3xl md:text-4xl font-bold text-white">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Detik</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KONTEN UTAMA (DIBURAMKAN DI BELAKANG) -->
+    <div class="filter blur-[10px] select-none pointer-events-none">
+        
+        <!-- Navigation -->
+        <nav class="fixed w-full z-50 glass border-b border-white/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-2xl font-bold tracking-tighter text-blue-600">SEMABPM<span class="text-gray-800">FT</span></span>
+                    </div>
+                    <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
+                        <span>Beranda</span><span>Profil</span><span>Departemen</span>
+                        <span class="bg-blue-600 text-white px-5 py-2 rounded-full">Hubungi Kami</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2070" 
+                 class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Background">
+            
+            <div class="relative z-10 text-center px-4 max-w-4xl">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                    SENAT MAHASISWA <br><span class="text-blue-400">BADAN PERWAKILAN MAHASISWA</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">
+                    Fakultas Teknik Universitas 17 Agustus 1945 Samarinda
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <div class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold">Profil Kami</div>
+                    <div class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-md font-semibold">Lihat Departemen</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Departemen -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-16">Struktur Departemen</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">01</div>
+                        <h3 class="text-xl font-bold mb-3">PSDM</h3>
+                        <p class="text-gray-600 italic text-sm">Pengembangan Sumber Daya Mahasiswa</p>
+                    </div>
+                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">02</div>
+                        <h3 class="text-xl font-bold mb-3">KOMINFO</h3>
+                        <p class="text-gray-600 italic text-sm">Komunikasi dan Informasi</p>
+                    </div>
+                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">03</div>
+                        <h3 class="text-xl font-bold mb-3">RISTEK</h3>
+                        <p class="text-gray-600 italic text-sm">Riset dan Teknologi</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-400 py-12 text-center">
+            <p>© 2026 SEMA BPM FT UNTAG. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT TIMER -->
+    <script>
+        // Set hitungan mundur: 500 Jam dalam detik
+        let totalSeconds = 500 * 3600;
+
+        function updateTimer() {
+            if (totalSeconds <= 0) {
+                clearInterval(interval);
+                return;
+            }
+
+            totalSeconds--;
+
+            const hrs = Math.floor(totalSeconds / 3600);
+            const mins = Math.floor((totalSeconds % 3600) / 60);
+            const secs = totalSeconds % 60;
+
+            document.getElementById('hours').innerText = hrs;
+            document.getElementById('minutes').innerText = mins < 10 ? '0' + mins : mins;
+            document.getElementById('seconds').innerText = secs < 10 ? '0' + secs : secs;
+        }
+
+        const interval = setInterval(updateTimer, 1000);
+    </script>
+
+</body>
+</html>
