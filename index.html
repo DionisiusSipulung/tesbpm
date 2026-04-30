@@ -15,12 +15,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade { animation: fadeInDown 1s ease-out forwards; }
+        
+        /* Transisi halus saat menghapus blur */
+        .content-transition { transition: filter 0.8s ease, pointer-events 0.5s; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
-    <!-- OVERLAY COMING SOON (Layar Depan) -->
-    <div class="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75">
+    <!-- OVERLAY COMING SOON -->
+    <div id="comingSoonOverlay" class="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75 transition-opacity duration-500">
         <div class="text-center px-6 animate-fade">
             <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter mb-4">
                 COMING <span class="text-blue-500">SOON</span>
@@ -29,17 +32,21 @@
                 Website Resmi SEMA BPM Fakultas Teknik UNTAG Samarinda sedang dalam tahap pengembangan.
             </p>
             
-            <!-- HITUNG MUNDUR -->
+            <!-- HITUNG MUNDUR GLOBAL (TARGET AKHIR JUNI) -->
             <div class="flex justify-center gap-4">
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
+                    <span id="days" class="block text-3xl md:text-4xl font-bold text-white">0</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Hari</span>
+                </div>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
                     <span id="hours" class="block text-3xl md:text-4xl font-bold text-white">0</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Jam</span>
                 </div>
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
                     <span id="minutes" class="block text-3xl md:text-4xl font-bold text-white">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Menit</span>
                 </div>
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
                     <span id="seconds" class="block text-3xl md:text-4xl font-bold text-white">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Detik</span>
                 </div>
@@ -47,8 +54,17 @@
         </div>
     </div>
 
-    <!-- KONTEN UTAMA (DIBURAMKAN DI BELAKANG) -->
-    <div class="filter blur-[10px] select-none pointer-events-none">
+    <!-- TOMBOL LOGIN ADMIN (POJOK KANAN BAWAH) -->
+    <div class="fixed bottom-5 right-5 z-[110]">
+        <button onclick="showAdminPrompt()" class="bg-white/10 hover:bg-white/20 text-white/50 hover:text-white p-2 rounded-full transition-all border border-white/10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- KONTEN UTAMA -->
+    <div id="mainContent" class="filter blur-[10px] select-none pointer-events-none content-transition">
         
         <!-- Navigation -->
         <nav class="fixed w-full z-50 glass border-b border-white/20">
@@ -78,8 +94,8 @@
                     Fakultas Teknik Universitas 17 Agustus 1945 Samarinda
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <div class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold">Profil Kami</div>
-                    <div class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-md font-semibold">Lihat Departemen</div>
+                    <div class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold cursor-pointer">Profil Kami</div>
+                    <div class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-md font-semibold cursor-pointer">Lihat Departemen</div>
                 </div>
             </div>
         </section>
@@ -108,50 +124,64 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="bg-gray-900 text-gray-400 py-12 text-center">
             <p>© 2026 SEMA BPM FT UNTAG. All Rights Reserved.</p>
         </footer>
     </div>
 
-    <!-- SCRIPT TIMER (ANTI RESET) -->
     <script>
-        // 1. Logika menentukan waktu target (500 jam dari pertama kali dibuka)
-        let targetTime = localStorage.getItem('sema_deadline');
-
-        if (!targetTime) {
-            // Jika belum ada, set 500 jam dari sekarang
-            const fiveHundredHoursInMs = 500 * 60 * 60 * 1000;
-            targetTime = new Date().getTime() + fiveHundredHoursInMs;
-            localStorage.setItem('sema_deadline', targetTime);
-        }
+        // --- LOGIKA TIMER GLOBAL (AKHIR JUNI) ---
+        const targetDate = new Date(2026, 5, 30, 23, 59, 59).getTime();
 
         function updateTimer() {
             const now = new Date().getTime();
-            const distance = targetTime - now;
+            const distance = targetDate - now;
 
             if (distance <= 0) {
-                document.getElementById('hours').innerText = "0";
-                document.getElementById('minutes').innerText = "00";
-                document.getElementById('seconds').innerText = "00";
-                clearInterval(interval);
+                unlockSite(); // Otomatis buka jika waktu habis
                 return;
             }
 
-            // Hitung jam, menit, detik
-            const hrs = Math.floor(distance / (1000 * 60 * 60));
-            const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const secs = Math.floor((distance % (1000 * 60)) / 1000);
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Tampilkan ke layar
-            document.getElementById('hours').innerText = hrs;
-            document.getElementById('minutes').innerText = mins < 10 ? '0' + mins : mins;
-            document.getElementById('seconds').innerText = secs < 10 ? '0' + secs : secs;
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
         }
 
         const interval = setInterval(updateTimer, 1000);
-        updateTimer(); // Panggil langsung agar tidak delay 1 detik
-    </script>
+        updateTimer();
 
+        // --- LOGIKA ADMIN UNLOCK ---
+        function showAdminPrompt() {
+            const password = prompt("Masukkan Password Admin untuk akses preview:");
+            if (password === "admin123") { // GANTI PASSWORD DI SINI
+                unlockSite();
+            } else if (password !== null) {
+                alert("Password Salah!");
+            }
+        }
+
+        function unlockSite() {
+            const overlay = document.getElementById('comingSoonOverlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Animasi menghilang
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                mainContent.style.filter = 'none';
+                mainContent.style.select = 'auto';
+                mainContent.style.pointerEvents = 'auto';
+                document.body.style.overflow = 'auto';
+            }, 500);
+            
+            clearInterval(interval);
+        }
+    </script>
 </body>
 </html>
