@@ -256,6 +256,25 @@
                     </table>
                 </div>
             </div>
+
+<!-- PANEL CHAT MASUK (DI BAWAH ASPIRASI) -->
+<div class="mt-10 bg-white rounded-[2.5rem] shadow-xl border border-gray-200 overflow-hidden">
+    <div class="bg-blue-600 p-8 text-white flex justify-between items-center">
+        <div>
+            <h2 class="text-xl font-black uppercase italic tracking-tighter">Chat Bantuan Masuk</h2>
+            <p class="text-[10px] opacity-80 font-bold uppercase mt-1">Klik pada nama mahasiswa untuk membalas</p>
+        </div>
+        <div class="bg-white/20 px-4 py-1 rounded-full text-[10px] font-black uppercase italic">Live Monitoring</div>
+    </div>
+    
+    <!-- Grid Daftar Chat -->
+    <div id="activeChatsList" class="grid md:grid-cols-3 gap-4 p-8 bg-gray-50 min-h-[200px]">
+        <!-- Daftar chat akan muncul di sini secara otomatis melalui JavaScript -->
+        <div class="col-span-3 text-center py-10">
+            <p class="text-gray-400 italic text-sm">Menunggu pesan masuk dari mahasiswa...</p>
+        </div>
+    </div>
+</div>
         </section>
     </main>
 
@@ -279,6 +298,47 @@
             </div>
         </div>
     </div>
+
+<!-- Tombol Chat Melayang -->
+<div id="chatWidget" class="fixed bottom-6 right-6 z-[120] flex flex-col items-end">
+    <!-- Jendela Chat -->
+    <div id="chatBoxContainer" class="hidden bg-white shadow-2xl rounded-3xl w-80 md:w-96 border border-gray-100 overflow-hidden mb-4 flex flex-col animate-fade">
+        <div class="bg-blue-600 p-4 text-white flex justify-between items-center">
+            <div>
+                <p class="text-[10px] font-black uppercase italic" id="chatTargetName">Live Chat Bantuan</p>
+                <p class="text-[8px] opacity-75 uppercase">Online</p>
+            </div>
+            <button onclick="toggleChatBox()" class="text-2xl hover:text-gray-200">&times;</button>
+        </div>
+        
+        <!-- Area Pesan -->
+        <div id="chatWindow" class="p-4 h-80 overflow-y-auto bg-gray-50 flex flex-col">
+            <div id="messageContainer" class="flex flex-col space-y-2">
+                <!-- Gelembung chat akan muncul di sini secara real-time -->
+                <div class="msg-left self-start bg-gray-200 p-3 rounded-2xl text-xs italic">
+                    Halo! Ada yang bisa kami bantu?
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area CHAT -->
+        <div class="p-4 border-t flex gap-2 bg-white">
+            <input type="text" id="chatInput" placeholder="Tulis pesan..." 
+                   class="flex-1 text-sm outline-none bg-gray-50 px-4 py-2 rounded-full border border-gray-200 italic focus:border-blue-400">
+            <button onclick="sendMessage()" id="sendChatBtn" 
+                    class="bg-blue-600 text-white p-2 w-10 h-10 rounded-full hover:bg-blue-700 transition flex items-center justify-center">
+                <svg class="w-4 h-4 fill-current rotate-90" viewBox="0 0 20 20"><path d="M10.894,2.553l-6.9,6.9c-0.391,0.391-0.391,1.023,0,1.414l6.9,6.9c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293c0.391-0.391,0.391-1.023,0-1.414L6.414,10l6.894-6.894c0.391-0.391,0.391-1.023,0-1.414C11.917,2.162,11.285,2.162,10.894,2.553z"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tombol Buka/Tutup -->
+    <button onclick="toggleChatBox()" class="bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition duration-300">
+        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+    </button>
+</div>
 
     <!-- MODAL ASPIRASI -->
     <div id="aspirasiModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/60 p-4">
@@ -472,6 +532,161 @@
                 });
             }
         });
+
+	
+	let unsubMessages = null;
+let activeChatSessionId = null;
+
+// Fungsi Buka/Tutup Jendela Chat
+function toggleChatBox() {
+    const box = document.getElementById('chatBoxContainer');
+    box.classList.toggle('hidden');
+    if (!box.classList.contains('hidden')) {
+        document.getElementById('chatInput').focus();
+        scrollChatToBottom();
+    }
+}
+
+// Fungsi Scroll Otomatis
+function scrollChatToBottom() {
+    const win = document.getElementById('chatWindow');
+    win.scrollTop = win.scrollHeight;
+}
+
+// 1. FUNGSI KIRIM PESAN (Membuat koleksi chats HANYA saat klik kirim)
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const txt = input.value.trim();
+    
+    if(!txt || !auth.currentUser) return;
+
+    const sid = (currentUserData.role === 'admin') ? activeChatSessionId : auth.currentUser.uid;
+
+    try {
+        const updateData = {
+            lastMessage: txt,
+            lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+            isReadByAdmin: (currentUserData.role === 'admin')
+        };
+
+        // KUNCI UTAMA: Hanya update nama jika pengirimnya Mahasiswa
+        if (currentUserData.role !== 'admin') {
+            updateData.userName = currentUserData.nama_lengkap;
+            updateData.userId = sid;
+        }
+
+        // Update dokumen utama di koleksi chats
+        await db.collection("chats").doc(sid).set(updateData, { merge: true });
+
+        // Tambahkan detail pesan ke sub-koleksi messages
+        await db.collection("chats").doc(sid).collection("messages").add({
+            senderId: auth.currentUser.uid,
+            text: txt,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        input.value = "";
+    } catch (e) {
+        console.error("Gagal mengirim:", e);
+    }
+}
+
+// 2. FUNGSI LISTENER REAL-TIME (Menampilkan pesan)
+function listenToChat(sid) {
+    if(unsubMessages) unsubMessages();
+
+    unsubMessages = db.collection("chats").doc(sid).collection("messages")
+        .orderBy("timestamp", "asc")
+        .onSnapshot(snap => {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = "";
+            
+            snap.forEach(doc => {
+                const m = doc.data();
+                const isMe = m.senderId === auth.currentUser.uid;
+                
+                container.innerHTML += `
+                    <div class="flex ${isMe ? 'justify-end' : 'justify-start'} w-full">
+                        <div class="${isMe ? 'bg-blue-600 text-white rounded-br-none' : 'bg-gray-200 text-gray-800 rounded-bl-none'} 
+                                    max-w-[85%] p-3 rounded-2xl text-[13px] shadow-sm italic">
+                            ${m.text}
+                        </div>
+                    </div>`;
+            });
+            scrollChatToBottom();
+        });
+}
+
+// Inisialisasi saat login
+auth.onAuthStateChanged(user => {
+    if (user) {
+        db.collection("users").doc(user.uid).get().then(doc => {
+            currentUserData = doc.data();
+            if(currentUserData.role !== 'admin') {
+                activeChatSessionId = user.uid;
+                listenToChat(user.uid); // Mahasiswa mendengarkan chat-nya sendiri
+            } else {
+                loadActiveChatsForAdmin(); // Admin memuat daftar chat masuk
+            }
+        });
+    }
+});
+
+// Listener tombol Enter
+document.getElementById('chatInput').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') sendMessage();
+});
+
+function loadActiveChatsForAdmin() {
+    // Mendengarkan koleksi 'chats' secara real-time
+    db.collection("chats").orderBy("lastUpdate", "desc").onSnapshot(snap => {
+        const list = document.getElementById('activeChatsList');
+        if (!list) return;
+        
+        list.innerHTML = ""; // Bersihkan list sebelum render ulang
+
+        if (snap.empty) {
+            list.innerHTML = '<div class="col-span-3 text-center py-10 text-gray-400 italic text-sm">Belum ada chat masuk.</div>';
+            return;
+        }
+
+        snap.forEach(doc => {
+            const d = doc.data();
+            // Indikator jika ada pesan baru yang belum dibuka admin
+            const unreadStyle = !d.isReadByAdmin ? 'border-l-8 border-blue-600 bg-blue-50' : 'bg-white border-gray-100';
+            const badge = !d.isReadByAdmin ? '<span class="ml-2 bg-red-500 text-white text-[8px] px-2 py-0.5 rounded-full">BARU</span>' : '';
+
+            list.innerHTML += `
+                <div onclick="adminOpenChat('${d.userId}', '${d.userName}')" 
+                     class="${unreadStyle} p-6 rounded-3xl border shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <p class="text-[10px] font-black text-blue-600 uppercase italic tracking-widest">${d.userName} ${badge}</p>
+                        <p class="text-[8px] text-gray-400 font-bold">${d.lastUpdate?.toDate().toLocaleTimeString() || ''}</p>
+                    </div>
+                    <p class="text-xs text-gray-600 italic truncate mt-2">"${d.lastMessage}"</p>
+                    <button class="mt-4 text-[9px] font-black text-blue-600 uppercase tracking-widest border-b border-blue-200">Balas Pesan →</button>
+                </div>`;
+        });
+    });
+}
+
+// Fungsi saat admin mengklik kotak chat mahasiswa
+function adminOpenChat(id, name) {
+    activeChatSessionId = id; // Set target ID ke mahasiswa tersebut
+    document.getElementById('chatTargetName').innerText = name.toUpperCase();
+    
+    // Tandai sudah dibaca di database
+    db.collection("chats").doc(id).update({ isReadByAdmin: true });
+    
+    // Mulai mendengarkan percakapan spesifik mahasiswa ini
+    listenToChat(id);
+    
+    // Tampilkan jendela chat di pojok kanan bawah
+    const chatBox = document.getElementById('chatBoxContainer');
+    if (chatBox.classList.contains('hidden')) {
+        chatBox.classList.remove('hidden');
+    }
+}
 
         function loadAspirasiForAdmin() {
             db.collection("aspirasi").orderBy("timestamp", "desc").onSnapshot(snap => {
