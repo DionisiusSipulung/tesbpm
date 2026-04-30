@@ -7,6 +7,33 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+@media (max-width: 768px) {
+    /* Sembunyikan navigasi asli yang berantakan di IMG_3863.jpg */
+    .desktop-menu, .user-info-desktop {
+        display: none !important;
+    }
+
+    /* Pastikan header tetap rapi */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    /* Style untuk menu mobile yang memenuhi layar */
+    #mobileMenu.active {
+        display: flex !important;
+    }
+}
+
+/* Sembunyikan tombol burger saat di Laptop/Desktop */
+@media (min-width: 769px) {
+    #menuBtn {
+        display: none;
+    }
+}
+
 /* Pengaturan khusus Layar HP (Mobile) */
 @media (max-width: 768px) {
     /* 1. Perkecil Header agar tidak bertumpuk */
@@ -44,6 +71,23 @@
         padding: 15px !important;
     }
 }
+
+<!-- Tombol Burger (Hanya muncul di HP) -->
+<button id="menuBtn" class="md:hidden p-2 text-blue-600 focus:outline-none z-[150]">
+    <svg id="burgerIcon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+    </svg>
+</button>
+
+<!-- Menu Overlay Mobile -->
+<div id="mobileMenu" class="hidden fixed inset-0 bg-white z-[140] flex flex-col items-center justify-center space-y-8 text-xl font-bold uppercase italic tracking-tighter">
+    <a href="#" onclick="toggleMenu()">Home</a>
+    <a href="#" onclick="toggleMenu()">Profil</a>
+    <a href="#" onclick="toggleMenu()">Info Akademik</a>
+    <div class="border-t border-gray-100 w-2/3 my-4"></div>
+    <span class="text-blue-600">Halo, DIONISIUS</span>
+    <button onclick="logout()" class="bg-red-500 text-white px-8 py-2 rounded-full text-sm">Keluar</button>
+</div>
 
 /* Navigasi simpel untuk HP */
 header .nav-container {
@@ -852,8 +896,25 @@ async function sendMessage() {
     }
 }
 
+function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('burgerIcon');
+    
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('active');
+
+    // Ubah icon burger menjadi 'X' saat terbuka
+    if (menu.classList.contains('active')) {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+    } else {
+        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+    }
+}
+
+// Pasang event listener ke tombol
+document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+
 
     </script>
 </body>
 </html>
-
