@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEMA BPM FT UNTAG Samarinda</title>
+    <title>SEMA BPM FT UNTAG Samarinda | Portal Akademik & Aspirasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
-        .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; }
         .dropdown:hover .dropdown-menu { display: block; }
-        .dashboard-card { transition: transform 0.3s ease; }
-        .dashboard-card:hover { transform: translateY(-5px); }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .tab-btn.active { border-bottom: 3px solid #2563eb; color: #2563eb; }
         .animate-fade { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -26,8 +26,9 @@
                 SEMABPM<span class="text-gray-800">FT</span>
             </div>
             
+            <!-- Menu Sebelum Login -->
             <div id="publicMenu" class="md:flex space-x-8 items-center font-semibold text-sm">
-                <a href="#home" class="hover:text-blue-600">Home</a>
+                <a href="#home" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
                 <div class="relative dropdown">
                     <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
                         Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
@@ -38,95 +39,180 @@
                     </div>
                 </div>
                 <a href="#akademik" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
-                <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">Login</button>
+                <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
             </div>
 
+            <!-- Menu Setelah Login -->
             <div id="userMenu" class="hidden flex items-center gap-4">
                 <span class="text-sm font-bold text-gray-700">Halo, <span id="userNameDisplay" class="text-blue-600">Mahasiswa</span></span>
-                <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50">Keluar</button>
+                <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
             </div>
         </div>
     </nav>
 
-    <!-- MODAL AUTH -->
-    <div id="authModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/50 p-4">
-        <div class="bg-white rounded-2xl p-8 max-w-md w-full relative animate-fade shadow-2xl">
-            <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black text-2xl">&times;</button>
-            
-            <div id="loginForm">
-                <h2 class="text-2xl font-bold mb-6 text-blue-600 text-center uppercase tracking-tighter">Masuk Portal</h2>
-                <input type="text" id="loginUser" placeholder="Username" class="w-full border p-3 rounded-lg mb-4 outline-blue-500">
-                <input type="password" id="loginPass" placeholder="Password" class="w-full border p-3 rounded-lg mb-4 outline-blue-500">
-                <button id="btnLoginAction" onclick="handleLogin()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">Masuk</button>
-                <p class="mt-4 text-sm text-center text-gray-500">Belum punya akun? <a href="#" onclick="switchAuth()" class="text-blue-600 font-semibold underline">Daftar Akun</a></p>
-            </div>
-
-            <div id="signupForm" class="hidden">
-                <h2 class="text-2xl font-bold mb-6 text-green-600 text-center uppercase tracking-tighter">Pendaftaran Akun</h2>
-                <input type="text" id="regNama" placeholder="Nama Lengkap" class="w-full border p-3 rounded-lg mb-4 outline-green-500">
-                <input type="text" id="regUser" placeholder="Username (Untuk Login)" class="w-full border p-3 rounded-lg mb-4 outline-green-500">
-                <input type="password" id="regPass" placeholder="Buat Password (Min. 6 Karakter)" class="w-full border p-3 rounded-lg mb-4 outline-green-500">
-                <button id="btnRegAction" onclick="handleSignup()" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold hover:bg-green-700 transition">Daftar Sekarang</button>
-                <p class="mt-4 text-sm text-center text-gray-500">Sudah punya akun? <a href="#" onclick="switchAuth()" class="text-blue-600 font-semibold underline">Login</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- DASHBOARD HOME -->
-    <main id="dashboardHome" class="hidden pt-24 pb-20 px-4 max-w-7xl mx-auto animate-fade">
-        <div class="bg-gradient-to-br from-blue-600 to-indigo-800 rounded-3xl p-10 text-white mb-10 shadow-xl">
-            <h1 class="text-3xl font-extrabold mb-2 italic">Selamat Datang di Portal Teknik!</h1>
-            <p class="text-blue-100 opacity-90">Akses info praktikum dan sampaikan aspirasimu langsung ke SEMA & BPM.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="dashboard-card bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 font-bold italic text-xs text-center px-1">SIPIL</div>
-                <h3 class="font-bold text-lg mb-2">Daftar Praktikum</h3>
-                <p class="text-gray-500 text-sm mb-4 italic">Cek jadwal dan modul praktikum terbaru.</p>
-                <a href="#akademik" class="text-blue-600 font-bold text-sm">Lihat Selengkapnya →</a>
-            </div>
-            <div class="dashboard-card bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-4 font-bold italic">!</div>
-                <h3 class="font-bold text-lg mb-2">Suara Mahasiswa</h3>
-                <p class="text-gray-500 text-sm mb-4 italic">Kirim keluhan atau saran ke pengurus.</p>
-                <a href="#aspirasiBox" class="text-red-600 font-bold text-sm">Kirim Aspirasi →</a>
-            </div>
-            <div class="dashboard-card bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-                <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 font-bold italic text-[10px]">ORGM</div>
-                <h3 class="font-bold text-lg mb-2">Profil Pengurus</h3>
-                <p class="text-gray-500 text-sm mb-4 italic">Kenali pimpinan SEMA & BPM FT UNTAG.</p>
-                <a href="#visi-misi" class="text-indigo-600 font-bold text-sm">Lihat Profil →</a>
-            </div>
-        </div>
-
-        <!-- FORM ASPIRASI MAHASISWA -->
-        <section id="aspirasiBox" class="mt-12">
-            <div class="max-w-3xl bg-white p-8 rounded-3xl shadow-lg border border-blue-100">
-                <h2 class="text-2xl font-bold mb-4 text-blue-600 uppercase italic tracking-tighter">Kirim Aspirasi Mahasiswa</h2>
-                <textarea id="aspirasiMsg" rows="4" class="w-full border border-gray-200 p-4 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Tuliskan aspirasi, kritik, atau saran Anda di sini..."></textarea>
-                <button onclick="submitAspirasi()" id="btnAspirasi" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-100">Kirim Sekarang</button>
+    <!-- CONTENT PUBLIK -->
+    <div id="publicContent">
+        <section id="home" class="pt-32 pb-20 px-4 bg-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-blue-600 font-bold uppercase tracking-widest mb-2 text-sm">Tentang Kami</h2>
+                    <h3 class="text-4xl font-black italic tracking-tighter uppercase">Lembaga Kemahasiswaan FT</h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="bg-blue-50 p-8 rounded-3xl border-l-8 border-blue-600">
+                        <h1 class="text-3xl font-black mb-4 uppercase italic text-blue-700">SEMA FT</h1>
+                        <p class="text-gray-700 leading-relaxed italic">
+                            Senat Mahasiswa (SEMA) Fakultas Teknik merupakan lembaga eksekutif tertinggi di tingkat fakultas. SEMA bertanggung jawab atas koordinasi kegiatan mahasiswa dan pelaksanaan program kerja operasional demi kemajuan Teknik.
+                        </p>
+                    </div>
+                    <div class="bg-gray-100 p-8 rounded-3xl border-l-8 border-gray-400">
+                        <h1 class="text-3xl font-black mb-4 uppercase italic text-gray-600">BPM FT</h1>
+                        <p class="text-gray-700 leading-relaxed italic">
+                            Badan Perwakilan Mahasiswa (BPM) Fakultas Teknik memegang peran legislatif dan pengawasan. BPM memastikan setiap kebijakan bersifat transparan serta mewakili suara mahasiswa dari seluruh prodi.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- ADMIN PANEL (REAL-TIME ASPIRASI) -->
-        <section id="adminPanel" class="hidden mt-12 animate-fade">
-            <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
-                <div class="bg-gray-800 p-6 text-white flex justify-between items-center">
-                    <h2 class="text-xl font-bold uppercase tracking-tighter italic">Panel Aspirasi (Admin Only)</h2>
-                    <span class="bg-green-500 text-[10px] px-2 py-1 rounded-full animate-pulse font-bold">LIVE CONNECTION</span>
+        <section id="visi-misi" class="py-20 bg-gray-50 px-4 border-y border-gray-100">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-center text-3xl font-black mb-10 italic uppercase tracking-tighter">Visi & Misi</h2>
+                <div class="flex justify-center mb-8 bg-gray-200 p-1 rounded-xl">
+                    <button onclick="openTab(event, 'tab-sema')" class="tab-btn active w-full py-3 font-bold uppercase tracking-widest rounded-lg transition">SEMA FT</button>
+                    <button onclick="openTab(event, 'tab-bpm')" class="tab-btn w-full py-3 font-bold uppercase tracking-widest rounded-lg transition">BPM FT</button>
+                </div>
+
+                <div id="tab-sema" class="tab-content active animate-fade bg-white p-8 rounded-2xl shadow-sm border border-blue-100">
+                    <h4 class="text-blue-600 font-bold mb-2 uppercase italic tracking-tighter">Visi SEMA</h4>
+                    <p class="italic text-gray-600 mb-6 text-lg">"Terwujudnya SEMA FT yang aktif, harmonis, dan profesional sebagai wadah aspirasi mahasiswa Teknik."</p>
+                    <h4 class="text-blue-600 font-bold mb-2 uppercase italic tracking-tighter">Misi SEMA</h4>
+                    <ul class="text-sm text-gray-600 space-y-3 italic">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 rounded-full"></span>Meningkatkan koordinasi antar organisasi mahasiswa.</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 rounded-full"></span>Mengembangkan potensi minat bakat mahasiswa Teknik.</li>
+                    </ul>
+                </div>
+
+                <div id="tab-bpm" class="tab-content animate-fade bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                    <h4 class="text-gray-800 font-bold mb-2 uppercase italic tracking-tighter">Visi BPM</h4>
+                    <p class="italic text-gray-600 mb-6 text-lg">"Menciptakan iklim organisasi legislatif yang transparan, kritis, dan komunikatif."</p>
+                    <h4 class="text-gray-800 font-bold mb-2 uppercase italic tracking-tighter">Misi BPM</h4>
+                    <ul class="text-sm text-gray-600 space-y-3 italic">
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-500 rounded-full"></span>Menyelenggarakan fungsi kontrol yang efektif.</li>
+                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-500 rounded-full"></span>Mewadahi penyampaian aspirasi secara sistematis.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="struktur" class="py-20 bg-white px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-center text-3xl font-black mb-16 italic uppercase tracking-tighter">Pengurus Inti</h2>
+                <div class="grid md:grid-cols-2 gap-16">
+                    <div class="bg-gray-50 p-8 rounded-3xl border border-dashed border-blue-200">
+                        <h3 class="text-center font-bold text-blue-600 uppercase tracking-widest mb-10 text-lg italic">SEMA FT</h3>
+                        <div class="flex justify-center gap-8 md:gap-12">
+                            <div class="text-center group">
+                                <div class="w-32 h-44 bg-gray-200 rounded-2xl mb-4 mx-auto border-2 border-transparent group-hover:border-blue-500 transition overflow-hidden flex items-center justify-center text-[10px] text-gray-400">FOTO KETUA</div>
+                                <p class="font-bold text-sm uppercase">Nama Ketua</p>
+                                <p class="text-[10px] text-blue-500 font-black italic uppercase">Ketua SEMA</p>
+                            </div>
+                            <div class="text-center group">
+                                <div class="w-32 h-44 bg-gray-200 rounded-2xl mb-4 mx-auto border-2 border-transparent group-hover:border-blue-500 transition overflow-hidden flex items-center justify-center text-[10px] text-gray-400">FOTO WAKIL</div>
+                                <p class="font-bold text-sm uppercase">Nama Wakil</p>
+                                <p class="text-[10px] text-blue-500 font-black italic uppercase">Wakil SEMA</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-3xl border border-dashed border-gray-300">
+                        <h3 class="text-center font-bold text-gray-600 uppercase tracking-widest mb-10 text-lg italic">BPM FT</h3>
+                        <div class="flex justify-center gap-8 md:gap-12">
+                            <div class="text-center group">
+                                <div class="w-32 h-44 bg-gray-200 rounded-2xl mb-4 mx-auto border-2 border-transparent group-hover:border-gray-500 transition overflow-hidden flex items-center justify-center text-[10px] text-gray-400">FOTO KETUA</div>
+                                <p class="font-bold text-sm uppercase">Nama Ketua</p>
+                                <p class="text-[10px] text-gray-400 font-black italic uppercase">Ketua BPM</p>
+                            </div>
+                            <div class="text-center group">
+                                <div class="w-32 h-44 bg-gray-200 rounded-2xl mb-4 mx-auto border-2 border-transparent group-hover:border-gray-500 transition overflow-hidden flex items-center justify-center text-[10px] text-gray-400">FOTO WAKIL</div>
+                                <p class="font-bold text-sm uppercase">Nama Wakil</p>
+                                <p class="text-[10px] text-gray-400 font-black italic uppercase">Wakil BPM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="akademik" class="py-20 bg-gray-900 text-white px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-center text-3xl font-black mb-16 uppercase italic tracking-tighter text-blue-500">Program Studi</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 p-8 rounded-3xl border-b-4 border-blue-600 shadow-2xl">
+                        <h3 class="text-2xl font-extrabold mb-6 italic text-blue-400 uppercase tracking-tighter">Teknik Sipil</h3>
+                        <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">Daftar Praktikum:</p>
+                        <ul class="text-sm italic space-y-4 text-gray-300">
+                            <li>01. Mekanika Tanah</li>
+                            <li>02. Struktur Beton</li>
+                            <li>03. Analisis Poligon Batang</li>
+                            <li>04. Mekanika Fluida</li>
+                            <li>05. Uji Bahan Konstruksi</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center">
+                        <h3 class="text-2xl font-bold mb-3 italic text-gray-500 uppercase tracking-tighter">Arsitektur</h3>
+                        <span class="text-[10px] font-black bg-gray-700 px-3 py-1 rounded-full text-gray-400 uppercase italic">Coming Soon</span>
+                    </div>
+                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 flex flex-col items-center justify-center text-center">
+                        <h3 class="text-2xl font-bold mb-3 italic text-gray-500 uppercase tracking-tighter">PWK</h3>
+                        <span class="text-[10px] font-black bg-gray-700 px-3 py-1 rounded-full text-gray-400 uppercase italic">Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- DASHBOARD -->
+    <main id="dashboardHome" class="hidden pt-24 pb-20 px-4 max-w-7xl mx-auto animate-fade">
+        <div class="bg-gradient-to-br from-blue-700 to-indigo-900 rounded-[2.5rem] p-10 text-white mb-10 shadow-2xl relative overflow-hidden">
+            <h1 class="text-4xl font-black mb-4 italic tracking-tighter">Dashboard Portal Mahasiswa</h1>
+            <p class="max-w-2xl text-blue-100 italic">Selamat datang di sistem manajemen mahasiswa. Di sini Anda dapat mengakses dokumen penting dan mengirimkan aspirasi secara privat.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white p-10 rounded-[2rem] border border-gray-200 shadow-sm hover:shadow-xl transition group">
+                <h3 class="font-black text-2xl mb-4 italic uppercase tracking-tighter text-red-600">Kotak Aspirasi</h3>
+                <p class="text-gray-500 text-sm mb-8 italic">Sampaikan suara Anda langsung kepada tim SEMA atau BPM untuk tindak lanjut fasilitas maupun akademik.</p>
+                <button onclick="toggleAspirasiModal()" class="w-full bg-red-50 text-red-600 py-4 rounded-2xl font-black uppercase tracking-widest group-hover:bg-red-600 group-hover:text-white transition">Kirim Suara Mahasiswa →</button>
+            </div>
+            
+            <div class="bg-white p-10 rounded-[2rem] border border-gray-200 shadow-sm hover:shadow-xl transition group">
+                <h3 class="font-black text-2xl mb-4 italic uppercase tracking-tighter text-blue-600">Unduh Modul</h3>
+                <p class="text-gray-500 text-sm mb-8 italic">Akses modul praktikum Teknik Sipil, AutoCAD, dan panduan akademik lainnya versi terbaru.</p>
+                <button class="w-full bg-blue-50 text-blue-600 py-4 rounded-2xl font-black uppercase tracking-widest group-hover:bg-blue-600 group-hover:text-white transition">Buka Folder Modul →</button>
+            </div>
+        </div>
+
+        <!-- ADMIN PANEL (Hanya muncul jika user adalah admin) -->
+        <section id="adminPanel" class="hidden animate-fade">
+            <div class="bg-white rounded-[2.5rem] shadow-xl border border-gray-200 overflow-hidden">
+                <div class="bg-gray-800 p-8 text-white flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-black uppercase tracking-tighter italic text-blue-400">Daftar Aspirasi Masuk</h2>
+                        <p class="text-[10px] text-gray-400 italic uppercase tracking-widest">Panel khusus pengurus SEMA & BPM</p>
+                    </div>
+                    <span class="bg-blue-600 text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest animate-pulse">Admin Mode</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
-                        <thead class="bg-gray-50 border-b">
+                        <thead class="bg-gray-50 border-b border-gray-100">
                             <tr>
-                                <th class="p-4 text-xs font-bold text-gray-500 uppercase">Waktu</th>
-                                <th class="p-4 text-xs font-bold text-gray-500 uppercase">Isi Aspirasi</th>
-                                <th class="p-4 text-xs font-bold text-gray-500 uppercase">Aksi</th>
+                                <th class="p-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Waktu</th>
+                                <th class="p-6 text-[10px] font-black text-gray-400 uppercase tracking-widest">Isi Aspirasi</th>
+                                <th class="p-6 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="adminAspirasiList" class="divide-y text-sm">
-                            <!-- Data otomatis masuk di sini -->
+                        <tbody id="adminAspirasiList" class="divide-y divide-gray-50 text-sm italic">
+                            <!-- Data dimuat via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -134,79 +220,42 @@
         </section>
     </main>
 
-    <!-- CONTENT PUBLIK -->
-    <div id="publicContent" class="animate-fade">
-        <section id="home" class="pt-32 pb-20 px-4 bg-white">
-            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-                <div class="border-l-4 border-blue-600 pl-6">
-                    <h1 class="text-blue-600 font-bold uppercase tracking-widest mb-2">Lembaga Eksekutif</h1>
-                    <h2 class="text-4xl font-black mb-6">SEMA FT</h2>
-                    <p class="text-gray-600 leading-relaxed text-lg italic">Senat Mahasiswa (SEMA) Fakultas Teknik merupakan lembaga eksekutif tertinggi di tingkat fakultas.</p>
-                </div>
-                <div class="border-r-4 border-gray-300 pr-6 text-right">
-                    <h1 class="text-gray-400 font-bold uppercase tracking-widest mb-2">Lembaga Legislatif</h1>
-                    <h2 class="text-4xl font-black mb-6">BPM FT</h2>
-                    <p class="text-gray-600 leading-relaxed text-lg italic">Badan Perwakilan Mahasiswa (BPM) menjalankan fungsi pengawasan dan legislasi.</p>
-                </div>
+    <!-- MODAL AUTH -->
+    <div id="authModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/50 p-4">
+        <div class="bg-white rounded-[2rem] p-10 max-w-md w-full relative animate-fade">
+            <button onclick="toggleAuthModal()" class="absolute top-6 right-6 text-gray-300 hover:text-black text-3xl font-light">&times;</button>
+            <div id="loginForm">
+                <h2 class="text-3xl font-black mb-8 text-blue-600 uppercase italic tracking-tighter text-center">Masuk Portal</h2>
+                <input type="text" id="loginUser" placeholder="Username" class="w-full bg-gray-50 border-none p-4 rounded-2xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none">
+                <input type="password" id="loginPass" placeholder="Password" class="w-full bg-gray-50 border-none p-4 rounded-2xl mb-8 focus:ring-2 focus:ring-blue-500 outline-none">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-blue-200">Masuk</button>
+                <p class="mt-6 text-xs text-center text-gray-400 italic font-bold">Belum memiliki akses? <a href="#" onclick="switchAuth()" class="text-blue-600 underline">Daftar Akun</a></p>
             </div>
-        </section>
-
-        <section id="visi-misi" class="py-20 bg-gray-100 px-4">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-center mb-10 uppercase tracking-tighter italic">Visi & Misi</h2>
-                <div class="flex border-b border-gray-300 mb-8 bg-white rounded-t-xl overflow-hidden">
-                    <button onclick="openTab('sema')" id="tabSema" class="flex-1 py-4 font-bold tab-active transition">SEMA FT</button>
-                    <button onclick="openTab('bpm')" id="tabBpm" class="flex-1 py-4 font-bold text-gray-400 transition">BPM FT</button>
-                </div>
-                <div id="contentSema" class="bg-white p-8 rounded-b-2xl shadow-sm animate-fade">
-                    <h3 class="text-xl font-bold mb-2 text-blue-600 italic">Visi SEMA</h3>
-                    <p class="italic text-gray-600 mb-6">"Mewujudkan Senat Mahasiswa Fakultas Teknik yang progresif, inklusif, dan berintegritas."</p>
-                </div>
-                <div id="contentBpm" class="hidden bg-white p-8 rounded-b-2xl shadow-sm animate-fade">
-                    <h3 class="text-xl font-bold mb-2 text-blue-600 italic">Visi BPM</h3>
-                    <p class="italic text-gray-600 mb-6">"Menjadi lembaga legislatif yang kritis, transparan, dan amanah."</p>
-                </div>
+            <div id="signupForm" class="hidden">
+                <h2 class="text-3xl font-black mb-8 text-green-600 uppercase italic tracking-tighter text-center">Daftar Akun</h2>
+                <input type="text" id="regNama" placeholder="Nama Lengkap" class="w-full bg-gray-50 border-none p-4 rounded-2xl mb-4 focus:ring-2 focus:ring-green-500 outline-none">
+                <input type="text" id="regUser" placeholder="Username" class="w-full bg-gray-50 border-none p-4 rounded-2xl mb-4 focus:ring-2 focus:ring-green-500 outline-none">
+                <input type="password" id="regPass" placeholder="Password" class="w-full bg-gray-50 border-none p-4 rounded-2xl mb-8 focus:ring-2 focus:ring-green-500 outline-none">
+                <button onclick="handleSignup()" class="w-full bg-green-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-green-200">Daftar</button>
             </div>
-        </section>
-
-        <section id="akademik" class="py-20 bg-gray-900 text-white px-4">
-            <div class="max-w-7xl mx-auto text-center">
-                <h2 class="text-3xl font-bold mb-12 uppercase italic">Info Praktikum Teknik</h2>
-                <div class="grid md:grid-cols-3 gap-8 text-left">
-                    <div class="bg-gray-800 p-8 rounded-2xl border border-gray-700">
-                        <h3 class="text-2xl font-bold mb-4 italic text-blue-400">Teknik Sipil</h3>
-                        <ul class="text-gray-300 space-y-2 text-sm italic">
-                            <li>- Mekanika Tanah</li>
-                            <li>- Teknologi Beton</li>
-                            <li>- Hidrolika</li>
-                        </ul>
-                    </div>
-                    <div class="bg-gray-800/50 p-8 rounded-2xl border border-gray-700 opacity-50 relative">
-                        <div class="absolute top-4 right-4 bg-yellow-500 text-black text-[9px] font-bold px-2 py-1 rounded">SOON</div>
-                        <h3 class="text-2xl font-bold mb-4">Arsitektur</h3>
-                    </div>
-                    <div class="bg-gray-800/50 p-8 rounded-2xl border border-gray-700 opacity-50 relative">
-                        <div class="absolute top-4 right-4 bg-yellow-500 text-black text-[9px] font-bold px-2 py-1 rounded">SOON</div>
-                        <h3 class="text-2xl font-bold mb-4">PWK</h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="aspirasi" class="py-20 bg-white px-4 text-center">
-            <div class="max-w-3xl mx-auto bg-red-50 p-12 rounded-[3rem] border-2 border-dashed border-red-200">
-                <h2 class="text-3xl font-black text-red-600 mb-4 italic uppercase">Kotak Aspirasi</h2>
-                <p class="text-gray-600 mb-8 italic">Punya keluhan terkait fasilitas Teknik? Suarakan di sini.</p>
-                <button onclick="toggleAuthModal()" class="bg-red-600 text-white px-10 py-4 rounded-xl font-bold shadow-xl shadow-red-100 hover:bg-red-700 transition">LOGIN UNTUK MENGIRIM</button>
-            </div>
-        </section>
+        </div>
     </div>
 
-    <footer class="py-10 text-center text-gray-400 text-xs border-t bg-white">
-        &copy; 2026 SEMA BPM FT UNTAG Samarinda. Developed by Dionisius.
+    <!-- MODAL ASPIRASI -->
+    <div id="aspirasiModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/60 p-4">
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-2xl w-full relative animate-fade">
+            <button onclick="toggleAspirasiModal()" class="absolute top-6 right-8 text-gray-300 hover:text-black text-4xl font-light">&times;</button>
+            <h2 class="text-2xl font-black mb-2 text-blue-600 uppercase italic tracking-tighter">Suara Mahasiswa</h2>
+            <p class="text-gray-400 text-xs mb-8 italic">Identitas Anda akan tersimpan sebagai pengirim aspirasi yang sah.</p>
+            <textarea id="aspirasiMsg" rows="6" class="w-full bg-gray-50 border-none p-6 rounded-3xl mb-6 focus:ring-2 focus:ring-blue-500 outline-none resize-none italic" placeholder="Tuliskan aspirasi, kritik, atau saran Anda..."></textarea>
+            <button onclick="submitAspirasi()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-700 transition shadow-xl shadow-blue-100">Kirim Sekarang</button>
+        </div>
+    </div>
+
+    <footer class="py-12 text-center text-gray-400 text-[10px] border-t bg-white uppercase tracking-[0.2em] font-black">
+        <p>&copy; 2026 SEMA BPM FT UNTAG Samarinda</p>
     </footer>
 
-    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
@@ -220,122 +269,119 @@
             messagingSenderId: "271741798642",
             appId: "1:271741798642:web:d89e0c3d2e0e2b45ac686b"
         };
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // UI HELPERS
         function toggleAuthModal() { document.getElementById('authModal').classList.toggle('hidden'); }
+        function toggleAspirasiModal() { document.getElementById('aspirasiModal').classList.toggle('hidden'); }
         function switchAuth() { 
             document.getElementById('loginForm').classList.toggle('hidden');
             document.getElementById('signupForm').classList.toggle('hidden');
         }
 
-        function openTab(name) {
-            const sema = document.getElementById('contentSema');
-            const bpm = document.getElementById('contentBpm');
-            const tSema = document.getElementById('tabSema');
-            const tBpm = document.getElementById('tabBpm');
-            if(name === 'sema') {
-                sema.classList.remove('hidden'); bpm.classList.add('hidden');
-                tSema.classList.add('tab-active'); tBpm.classList.remove('tab-active');
-            } else {
-                bpm.classList.remove('hidden'); sema.classList.add('hidden');
-                tBpm.classList.add('tab-active'); tSema.classList.remove('tab-active');
-            }
-        }
-
-        // AUTH LOGIC
-        async function handleSignup() {
-            const btn = document.getElementById('btnRegAction');
-            const nama = document.getElementById('regNama').value;
-            const user = document.getElementById('regUser').value;
-            const pass = document.getElementById('regPass').value;
-            const fakeEmail = `${user.toLowerCase().trim()}@bpmsenat.com`;
-
-            if(!nama || !user || pass.length < 6) return alert("Lengkapi data!");
-            btn.innerText = "Memproses...";
-            
-            try {
-                const res = await auth.createUserWithEmailAndPassword(fakeEmail, pass);
-                await db.collection("users").doc(res.user.uid).set({
-                    nama_lengkap: nama, username: user, role: 'mahasiswa'
-                });
-                alert("Berhasil! Silakan Login.");
-                switchAuth();
-            } catch (e) { alert(e.message); }
-            btn.innerText = "Daftar Sekarang";
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
         }
 
         async function handleLogin() {
-            const btn = document.getElementById('btnLoginAction');
             const user = document.getElementById('loginUser').value;
             const pass = document.getElementById('loginPass').value;
-            const fakeEmail = `${user.toLowerCase().trim()}@bpmsenat.com`;
-
-            btn.innerText = "Mengecek...";
             try {
-                await auth.signInWithEmailAndPassword(fakeEmail, pass);
+                await auth.signInWithEmailAndPassword(`${user.toLowerCase().trim()}@bpmsenat.com`, pass);
                 toggleAuthModal();
-            } catch (e) { alert("Login Gagal!"); }
-            btn.innerText = "Masuk";
+            } catch (e) { alert("Login Gagal! Pastikan username/password benar."); }
+        }
+
+        async function handleSignup() {
+            const nama = document.getElementById('regNama').value;
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+            if(!nama || !user || !pass) return alert("Isi semua data!");
+            try {
+                const res = await auth.createUserWithEmailAndPassword(`${user.toLowerCase().trim()}@bpmsenat.com`, pass);
+                await db.collection("users").doc(res.user.uid).set({
+                    nama_lengkap: nama,
+                    username: user,
+                    role: "mahasiswa" // Default role
+                });
+                alert("Berhasil Daftar!");
+                switchAuth();
+            } catch (e) { alert("Pendaftaran Gagal."); }
         }
 
         function handleLogout() { auth.signOut().then(() => location.reload()); }
 
-        // ASPIRASI LOGIC
-        async function submitAspirasi() {
-            const msg = document.getElementById('aspirasiMsg').value;
-            if(!msg.trim()) return alert("Pesan kosong!");
-            
-            try {
-                await db.collection("aspirasi").add({
-                    uid: auth.currentUser.uid,
-                    pesan: msg,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('publicContent').classList.add('hidden');
+                document.getElementById('loginBtnNav').classList.add('hidden');
+                document.getElementById('dashboardHome').classList.remove('hidden');
+                document.getElementById('userMenu').classList.remove('hidden');
+                
+                // Ambil data detail user dari Firestore
+                db.collection("users").doc(user.uid).get().then(doc => {
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        document.getElementById('userNameDisplay').innerText = (userData.nama_lengkap || user.email.split('@')[0]).toUpperCase();
+                        
+                        // CEK ROLE UNTUK PANEL ADMIN
+                        if(userData.role === 'admin') {
+                            document.getElementById('adminPanel').classList.remove('hidden');
+                            loadAspirasiForAdmin(); // Panggil fungsi muat data
+                        }
+                    }
                 });
-                alert("Terkirim!");
-                document.getElementById('aspirasiMsg').value = "";
-            } catch (e) { alert("Error"); }
-        }
+            }
+        });
 
+        // FUNGSI ADMIN: Memuat semua aspirasi dari koleksi "aspirasi"
         function loadAspirasiForAdmin() {
             db.collection("aspirasi").orderBy("timestamp", "desc").onSnapshot(snap => {
                 const list = document.getElementById('adminAspirasiList');
                 list.innerHTML = "";
                 snap.forEach(doc => {
                     const d = doc.data();
-                    const date = d.timestamp ? d.timestamp.toDate().toLocaleString() : "...";
-                    list.innerHTML += `<tr><td class='p-4 text-xs'>${date}</td><td class='p-4'>${d.pesan}</td><td class='p-4'><button onclick="db.collection('aspirasi').doc('${doc.id}').delete()" class='text-red-500'>Hapus</button></td></tr>`;
+                    const date = d.timestamp ? d.timestamp.toDate().toLocaleString('id-ID') : "...";
+                    list.innerHTML += `
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="p-6 text-[10px] font-bold text-gray-400 uppercase italic">${date}</td>
+                            <td class="p-6 text-gray-700 leading-relaxed">${d.pesan}</td>
+                            <td class="p-6 text-center">
+                                <button onclick="deleteAspirasi('${doc.id}')" class="bg-red-50 text-red-500 text-[10px] font-black px-4 py-2 rounded-xl hover:bg-red-600 hover:text-white transition uppercase">Hapus</button>
+                            </td>
+                        </tr>
+                    `;
                 });
             });
         }
 
-        // AUTH LISTENER
-        auth.onAuthStateChanged(user => {
-            const publicC = document.getElementById('publicContent');
-            const dashboardH = document.getElementById('dashboardHome');
-            const userM = document.getElementById('userMenu');
-            const loginBtn = document.getElementById('loginBtnNav');
-
-            if (user) {
-                publicC.classList.add('hidden');
-                loginBtn.classList.add('hidden');
-                dashboardH.classList.remove('hidden');
-                userM.classList.remove('hidden');
-                
-                db.collection("users").doc(user.uid).get().then(doc => {
-                    if (doc.exists) {
-                        document.getElementById('userNameDisplay').innerText = doc.data().nama_lengkap;
-                        if(doc.data().role === 'admin') {
-                            document.getElementById('adminPanel').classList.remove('hidden');
-                            loadAspirasiForAdmin();
-                        }
-                    }
-                });
+        async function deleteAspirasi(id) {
+            if(confirm("Hapus aspirasi ini secara permanen?")) {
+                await db.collection("aspirasi").doc(id).delete();
             }
-        });
+        }
+
+        async function submitAspirasi() {
+            const msg = document.getElementById('aspirasiMsg').value;
+            if(!msg.trim()) return alert("Tuliskan pesan Anda.");
+            try {
+                await db.collection("aspirasi").add({
+                    uid: auth.currentUser.uid,
+                    pesan: msg,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Aspirasi Anda telah terkirim ke sistem!");
+                document.getElementById('aspirasiMsg').value = "";
+                toggleAspirasiModal();
+            } catch (e) { alert("Gagal mengirim."); }
+        }
     </script>
 </body>
 </html>
