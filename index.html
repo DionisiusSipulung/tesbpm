@@ -7,6 +7,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+/* Pengaturan khusus Layar HP (Mobile) */
+@media (max-width: 768px) {
+    /* 1. Perkecil Header agar tidak bertumpuk */
+    header nav {
+        display: none; /* Sembunyikan menu teks standar di HP jika berantakan */
+    }
+
+    /* 2. Sesuaikan ukuran teks Dashboard Portal Mahasiswa */
+    .dashboard-title { 
+        font-size: 24px !important; /* Ukuran teks lebih proposional */
+        line-height: 1.2;
+    }
+
+    /* 3. Atur Padding Container agar tidak terlalu rapat ke pinggir */
+    .container-main {
+        padding: 20px !important;
+    }
+
+    /* 4. Sesuaikan ukuran Kotak Aspirasi & Card lainnya */
+    .card-box {
+        padding: 24px !important;
+        border-radius: 2rem !important; /* Agar lengkungan tidak terlalu besar */
+    }
+
+    /* 5. Perkecil Jendela Chat agar tidak menutupi seluruh layar */
+    #chatBoxContainer {
+        width: 90% !important;
+        right: 5% !important;
+        bottom: 80px !important;
+    }
+
+    /* 6. Atur Grid Admin Chat agar menjadi 1 kolom saja di HP */
+    #activeChatsList {
+        grid-template-columns: 1fr !important;
+        padding: 15px !important;
+    }
+}
+
+/* Navigasi simpel untuk HP */
+header .nav-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+}
+
         body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
         .dropdown:hover .dropdown-menu { display: block; }
@@ -423,6 +468,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
+<!-- SweetAlert2 CSS & JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyB6GJuC9u4qrJBDPGA0cJMrtcnIRGUfiSA",
@@ -552,6 +600,7 @@ function scrollChatToBottom() {
     const win = document.getElementById('chatWindow');
     win.scrollTop = win.scrollHeight;
 }
+
 
 // 1. FUNGSI KIRIM PESAN (Membuat koleksi chats HANYA saat klik kirim)
 async function sendMessage() {
@@ -725,6 +774,86 @@ function adminOpenChat(id, name) {
                 toggleAspirasiModal();
             } catch (e) { alert("Gagal."); }
         }
+
+function toggleChatBox() {
+    // Cek status login
+    if (!auth.currentUser) {
+        Swal.fire({
+            title: 'Akses Terbatas!',
+            text: 'Silakan login terlebih dahulu untuk menggunakan layanan Live Chat.',
+            icon: 'warning',
+            confirmButtonText: 'Siap, Login Sekarang',
+            confirmButtonColor: '#2563eb', // Warna biru sesuai tema Anda
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        });
+        return; 
+    }
+
+    // Jika sudah login, buka chat box
+    const box = document.getElementById('chatBoxContainer');
+    box.classList.toggle('hidden');
+    
+    if (!box.classList.contains('hidden')) {
+        document.getElementById('chatInput').focus();
+        scrollChatToBottom();
+    }
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const txt = input.value.trim();
+    
+    if (!auth.currentUser) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Sesi Berakhir',
+            text: 'Silakan login ulang untuk mengirim pesan.',
+        });
+        return;
+    }
+    
+    if (!txt) return;
+
+    const sid = (currentUserData.role === 'admin') ? activeChatSessionId : auth.currentUser.uid;
+
+    try {
+        const updateData = {
+            lastMessage: txt,
+            lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+            isReadByAdmin: (currentUserData.role === 'admin')
+        };
+
+        if (currentUserData.role !== 'admin') {
+            updateData.userName = currentUserData.nama_lengkap;
+            updateData.userId = sid;
+        }
+
+        await db.collection("chats").doc(sid).set(updateData, { merge: true });
+
+        await db.collection("chats").doc(sid).collection("messages").add({
+            senderId: auth.currentUser.uid,
+            text: txt,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        input.value = "";
+    } catch (e) {
+        console.error("Gagal mengirim:", e);
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal Mengirim',
+            text: 'Terjadi kesalahan saat menghubungi server.',
+        });
+    }
+}
+
+
     </script>
 </body>
 </html>
+
