@@ -3,185 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon | SEMA BPM FT UNTAG Samarinda</title>
+    <title>SEMA BPM FT UNTAG Samarinda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
-        
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade { animation: fadeInDown 1s ease-out forwards; }
-        
-        /* Transisi halus saat menghapus blur */
         .content-transition { transition: filter 0.8s ease, pointer-events 0.5s; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
     <!-- OVERLAY COMING SOON -->
-    <div id="comingSoonOverlay" class="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75 transition-opacity duration-500">
+    <div id="comingSoonOverlay" class="fixed inset-0 z-[100] flex items-center justify-center backdrop-blur-md bg-black/75">
         <div class="text-center px-6 animate-fade">
-            <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter mb-4">
-                COMING <span class="text-blue-500">SOON</span>
-            </h1>
-            <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto mb-10">
-                Website Resmi SEMA BPM Fakultas Teknik UNTAG Samarinda sedang dalam tahap pengembangan.
-            </p>
-            
-            <!-- HITUNG MUNDUR GLOBAL (TARGET AKHIR JUNI) -->
+            <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter mb-4">COMING <span class="text-blue-500">SOON</span></h1>
+            <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto mb-10">Website Resmi SEMA BPM Fakultas Teknik UNTAG Samarinda sedang dalam tahap pengembangan.</p>
             <div class="flex justify-center gap-4">
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
-                    <span id="days" class="block text-3xl md:text-4xl font-bold text-white">0</span>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px]">
+                    <span id="days" class="block text-3xl font-bold text-white">0</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Hari</span>
                 </div>
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
-                    <span id="hours" class="block text-3xl md:text-4xl font-bold text-white">0</span>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px]">
+                    <span id="hours" class="block text-3xl font-bold text-white">0</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Jam</span>
                 </div>
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
-                    <span id="minutes" class="block text-3xl md:text-4xl font-bold text-white">00</span>
+                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px]">
+                    <span id="minutes" class="block text-3xl font-bold text-white">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Menit</span>
-                </div>
-                <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[80px] md:min-w-[100px]">
-                    <span id="seconds" class="block text-3xl md:text-4xl font-bold text-white">00</span>
-                    <span class="text-xs text-gray-400 uppercase tracking-widest">Detik</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TOMBOL LOGIN ADMIN (POJOK KANAN BAWAH) -->
-    <div class="fixed bottom-5 right-5 z-[110]">
-        <button onclick="showAdminPrompt()" class="bg-white/10 hover:bg-white/20 text-white/50 hover:text-white p-2 rounded-full transition-all border border-white/10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-        </button>
+    <!-- MODAL LOGIN / SIGNUP -->
+    <div id="authModal" class="fixed inset-0 z-[150] hidden flex items-center justify-center bg-black/80 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full relative">
+            <button onclick="toggleModal()" class="absolute top-4 right-4 text-gray-400 hover:text-black text-2xl">&times;</button>
+            <div id="loginForm">
+                <h2 class="text-2xl font-bold mb-6 text-blue-600">Masuk Akun</h2>
+                <input type="text" id="loginUser" placeholder="Username" class="w-full border p-3 rounded-lg mb-4 outline-blue-500">
+                <input type="password" id="loginPass" placeholder="Password" class="w-full border p-3 rounded-lg mb-4 outline-blue-500">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">Masuk</button>
+                <p class="mt-4 text-sm text-center">Belum punya akun? <a href="#" onclick="switchAuth()" class="text-blue-600 font-semibold">Daftar</a></p>
+            </div>
+            <div id="signupForm" class="hidden">
+                <h2 class="text-2xl font-bold mb-6 text-green-600">Daftar Akun</h2>
+                <input type="text" id="regUser" placeholder="Buat Username" class="w-full border p-3 rounded-lg mb-4 outline-green-500">
+                <input type="password" id="regPass" placeholder="Buat Password" class="w-full border p-3 rounded-lg mb-4 outline-green-500">
+                <button onclick="handleSignup()" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold hover:bg-green-700">Daftar Sekarang</button>
+                <p class="mt-4 text-sm text-center">Sudah punya akun? <a href="#" onclick="switchAuth()" class="text-blue-600 font-semibold">Masuk</a></p>
+            </div>
+        </div>
     </div>
 
     <!-- KONTEN UTAMA -->
     <div id="mainContent" class="filter blur-[10px] select-none pointer-events-none content-transition">
-        
-        <!-- Navigation -->
         <nav class="fixed w-full z-50 glass border-b border-white/20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16 items-center">
                     <div class="flex-shrink-0">
                         <span class="text-2xl font-bold tracking-tighter text-blue-600">SEMABPM<span class="text-gray-800">FT</span></span>
                     </div>
-                    <div class="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
-                        <span>Beranda</span><span>Profil</span><span>Departemen</span>
-                        <span class="bg-blue-600 text-white px-5 py-2 rounded-full">Hubungi Kami</span>
+                    <div class="flex items-center space-x-4">
+                        <div id="userDisplay" class="hidden text-sm font-semibold text-gray-700">Halo, <span id="userName" class="text-blue-600"></span></div>
+                        <button id="loginBtn" onclick="toggleModal()" class="bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-700">Login / Daftar</button>
+                        <button id="logoutBtn" onclick="handleLogout()" class="hidden bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-red-600">Keluar</button>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- Hero Section -->
-        <section class="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900">
-            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2070" 
-                 class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Background">
-            
-            <div class="relative z-10 text-center px-4 max-w-4xl">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-                    SENAT MAHASISWA <br><span class="text-blue-400">BADAN PERWAKILAN MAHASISWA</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed">
-                    Fakultas Teknik Universitas 17 Agustus 1945 Samarinda
-                </p>
+        <section class="relative h-screen flex items-center justify-center bg-gray-900">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-40">
+            <div class="relative z-10 text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight uppercase">Senat Mahasiswa <br><span class="text-blue-400">Badan Perwakilan Mahasiswa</span></h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-10">Fakultas Teknik Universitas 17 Agustus 1945 Samarinda</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <div class="bg-blue-600 text-white px-8 py-3 rounded-md font-semibold cursor-pointer">Profil Kami</div>
                     <div class="bg-white/10 text-white border border-white/20 px-8 py-3 rounded-md font-semibold cursor-pointer">Lihat Departemen</div>
                 </div>
             </div>
         </section>
-
-        <!-- Section Departemen -->
-        <section class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-4 text-center">
-                <h2 class="text-3xl font-bold text-gray-900 mb-16">Struktur Departemen</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
-                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">01</div>
-                        <h3 class="text-xl font-bold mb-3">PSDM</h3>
-                        <p class="text-gray-600 italic text-sm">Pengembangan Sumber Daya Mahasiswa</p>
-                    </div>
-                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">02</div>
-                        <h3 class="text-xl font-bold mb-3">KOMINFO</h3>
-                        <p class="text-gray-600 italic text-sm">Komunikasi dan Informasi</p>
-                    </div>
-                    <div class="p-8 bg-gray-50 rounded-2xl border border-gray-100">
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-6 text-blue-600 font-bold text-xl mx-auto">03</div>
-                        <h3 class="text-xl font-bold mb-3">RISTEK</h3>
-                        <p class="text-gray-600 italic text-sm">Riset dan Teknologi</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="bg-gray-900 text-gray-400 py-12 text-center">
-            <p>© 2026 SEMA BPM FT UNTAG. All Rights Reserved.</p>
-        </footer>
     </div>
 
+    <!-- ADMIN LOCK (POJOK KANAN BAWAH) -->
+    <div class="fixed bottom-5 right-5 z-[110]">
+        <button onclick="showAdminPrompt()" class="bg-white/10 p-2 rounded-full border border-white/10 text-white/30 hover:text-white transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+        </button>
+    </div>
+
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
     <script>
-        // --- LOGIKA TIMER GLOBAL (AKHIR JUNI) ---
-        const targetDate = new Date(2026, 5, 30, 23, 59, 59).getTime();
+        // KONFIGURASI FIREBASE MILIK DIONISIUS
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6GJuC9u4qrJBDPGA0cJMrtcnIRGUfiSA",
+            authDomain: "bpmsenatft.firebaseapp.com",
+            projectId: "bpmsenatft",
+            storageBucket: "bpmsenatft.firebasestorage.app",
+            messagingSenderId: "271741798642",
+            appId: "1:271741798642:web:d89e0c3d2e0e2b45ac686b",
+            measurementId: "G-QZES8KTVB9"
+        };
 
-        function updateTimer() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-            if (distance <= 0) {
-                unlockSite(); // Otomatis buka jika waktu habis
-                return;
-            }
-
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = d;
-            document.getElementById('hours').innerText = h;
-            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
-            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+        // AUTH FUNCTIONS
+        function toggleModal() { document.getElementById('authModal').classList.toggle('hidden'); }
+        function switchAuth() { 
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('signupForm').classList.toggle('hidden');
         }
 
-        const interval = setInterval(updateTimer, 1000);
-        updateTimer();
+        async function handleSignup() {
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+            const fakeEmail = `${user.toLowerCase().replace(/\s/g, '')}@bpmsenat.com`;
 
-        // --- LOGIKA ADMIN UNLOCK ---
-        function showAdminPrompt() {
-            const password = prompt("Masukkan Password Admin untuk akses preview:");
-            if (password === "admin123") { // GANTI PASSWORD DI SINI
+            if(!user || pass.length < 6) return alert("Username harus diisi & Password min 6 karakter!");
+
+            try {
+                const result = await auth.createUserWithEmailAndPassword(fakeEmail, pass);
+                await db.collection("users").doc(result.user.uid).set({
+                    username: user,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Signup Berhasil! Data sudah masuk ke Firebase.");
+                switchAuth();
+            } catch (e) { alert("Error: " + e.message); }
+        }
+
+        async function handleLogin() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            const fakeEmail = `${user.toLowerCase().replace(/\s/g, '')}@bpmsenat.com`;
+
+            try {
+                await auth.signInWithEmailAndPassword(fakeEmail, pass);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('currentUser', user);
+                location.reload();
+            } catch (e) { alert("Login Gagal!"); }
+        }
+
+        function checkLoginStatus() {
+            if(sessionStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                document.getElementById('userDisplay').classList.remove('hidden');
+                document.getElementById('userName').innerText = sessionStorage.getItem('currentUser');
                 unlockSite();
-            } else if (password !== null) {
-                alert("Password Salah!");
             }
+        }
+
+        function handleLogout() {
+            auth.signOut().then(() => { sessionStorage.clear(); location.reload(); });
+        }
+
+        // TIMER & OVERLAY
+        const targetDate = new Date(2026, 5, 30, 23, 59, 59).getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance <= 0) { unlockSite(); return; }
+            document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+
+        function showAdminPrompt() {
+            if(prompt("Admin Password:") === "admin123") unlockSite();
         }
 
         function unlockSite() {
-            const overlay = document.getElementById('comingSoonOverlay');
-            const mainContent = document.getElementById('mainContent');
-            
-            // Animasi menghilang
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                mainContent.style.filter = 'none';
-                mainContent.style.select = 'auto';
-                mainContent.style.pointerEvents = 'auto';
-                document.body.style.overflow = 'auto';
-            }, 500);
-            
-            clearInterval(interval);
+            document.getElementById('comingSoonOverlay').style.display = 'none';
+            document.getElementById('mainContent').classList.remove('blur-[10px]', 'select-none', 'pointer-events-none');
         }
+
+        window.onload = checkLoginStatus;
     </script>
 </body>
 </html>
