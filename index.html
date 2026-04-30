@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; overflow: hidden; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
         
         @keyframes fadeInDown {
@@ -29,10 +29,10 @@
                 Website Resmi SEMA BPM Fakultas Teknik UNTAG Samarinda sedang dalam tahap pengembangan.
             </p>
             
-            <!-- HITUNG MUNDUR 500 JAM -->
+            <!-- HITUNG MUNDUR -->
             <div class="flex justify-center gap-4">
                 <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
-                    <span id="hours" class="block text-3xl md:text-4xl font-bold text-white">500</span>
+                    <span id="hours" class="block text-3xl md:text-4xl font-bold text-white">0</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Jam</span>
                 </div>
                 <div class="bg-white/10 border border-white/20 p-4 rounded-xl min-w-[100px]">
@@ -114,29 +114,43 @@
         </footer>
     </div>
 
-    <!-- SCRIPT TIMER -->
+    <!-- SCRIPT TIMER (ANTI RESET) -->
     <script>
-        // Set hitungan mundur: 500 Jam dalam detik
-        let totalSeconds = 500 * 3600;
+        // 1. Logika menentukan waktu target (500 jam dari pertama kali dibuka)
+        let targetTime = localStorage.getItem('sema_deadline');
+
+        if (!targetTime) {
+            // Jika belum ada, set 500 jam dari sekarang
+            const fiveHundredHoursInMs = 500 * 60 * 60 * 1000;
+            targetTime = new Date().getTime() + fiveHundredHoursInMs;
+            localStorage.setItem('sema_deadline', targetTime);
+        }
 
         function updateTimer() {
-            if (totalSeconds <= 0) {
+            const now = new Date().getTime();
+            const distance = targetTime - now;
+
+            if (distance <= 0) {
+                document.getElementById('hours').innerText = "0";
+                document.getElementById('minutes').innerText = "00";
+                document.getElementById('seconds').innerText = "00";
                 clearInterval(interval);
                 return;
             }
 
-            totalSeconds--;
+            // Hitung jam, menit, detik
+            const hrs = Math.floor(distance / (1000 * 60 * 60));
+            const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((distance % (1000 * 60)) / 1000);
 
-            const hrs = Math.floor(totalSeconds / 3600);
-            const mins = Math.floor((totalSeconds % 3600) / 60);
-            const secs = totalSeconds % 60;
-
+            // Tampilkan ke layar
             document.getElementById('hours').innerText = hrs;
             document.getElementById('minutes').innerText = mins < 10 ? '0' + mins : mins;
             document.getElementById('seconds').innerText = secs < 10 ? '0' + secs : secs;
         }
 
         const interval = setInterval(updateTimer, 1000);
+        updateTimer(); // Panggil langsung agar tidak delay 1 detik
     </script>
 
 </body>
