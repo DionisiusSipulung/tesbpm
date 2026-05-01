@@ -610,19 +610,26 @@ header .nav-container {
 
  // KODE GABUNGAN BARU
 
-
 auth.onAuthStateChanged(user => {
     const publicContent = document.getElementById('publicContent');
     const loginBtnNav = document.getElementById('loginBtnNav');
     const dashboardHome = document.getElementById('dashboardHome');
     const userMenu = document.getElementById('userMenu');
     const userNameDisplay = document.getElementById('userNameDisplay');
+    
+    // ELEMEN KHUSUS MOBILE
+    const loginBtnMobile = document.getElementById('loginBtnMobile');
+    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
 
     if (user) {
+        // Desktop tetap aman
         if (loginBtnNav) loginBtnNav.classList.add('hidden');
         if (userMenu) userMenu.classList.remove('hidden');
         
-        // Tetap tampilkan Home, Dashboard disembunyikan sampai tombol diklik
+        // UPDATE KHUSUS MOBILE: Sembunyikan login, munculkan keluar
+        if (loginBtnMobile) loginBtnMobile.classList.add('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.remove('hidden');
+        
         if (publicContent) publicContent.classList.remove('hidden');
         if (dashboardHome) dashboardHome.classList.add('hidden');
 
@@ -649,6 +656,10 @@ auth.onAuthStateChanged(user => {
         if (dashboardHome) dashboardHome.classList.add('hidden');
         if (loginBtnNav) loginBtnNav.classList.remove('hidden');
         if (userMenu) userMenu.classList.add('hidden');
+
+        // RESET MOBILE SAAT LOGOUT
+        if (loginBtnMobile) loginBtnMobile.classList.remove('hidden');
+        if (logoutBtnMobile) logoutBtnMobile.classList.add('hidden');
     }
 });
 
@@ -661,6 +672,11 @@ function showDashboard() {
 function showHome() {
     document.getElementById('publicContent').classList.remove('hidden');
     document.getElementById('dashboardHome').classList.add('hidden');
+    
+    // Tambahkan ini agar menu burger otomatis tertutup setelah klik link
+    if (typeof closeMobileMenu === "function") {
+        closeMobileMenu();
+    }
 }
 
 	
