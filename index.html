@@ -63,30 +63,6 @@ header .nav-container {
 
         /* Mencegah scroll saat layer Coming Soon aktif */
         body.lock-scroll { overflow: hidden; }
-
-/* Tombol Burger & Mobile Menu */
-@media (max-width: 768px) {
-    #publicMenu { display: none !important; } /* Sembunyikan menu desktop */
-    
-    .mobile-menu-active {
-        overflow: hidden; /* Mencegah scroll saat menu buka */
-    }
-
-    #mobileOverlay.active {
-        display: flex !important;
-        animation: fadeIn 0.3s ease-out;
-    }
-}
-
-#mobileOverlay a {
-    transition: all 0.3s ease;
-}
-
-#mobileOverlay a:hover {
-    color: #2563eb;
-    transform: scale(1.1);
-}
-
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 lock-scroll">
@@ -128,79 +104,57 @@ header .nav-container {
     </div>
 
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 glass border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-blue-600">
-                SEMABPM<span class="text-gray-800">FT</span>
-            </div>
-            
-            <div id="publicMenu" class="md:flex space-x-8 items-center font-semibold text-sm">
-                <a href="#home" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
-                <div class="relative dropdown">
-                    <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
-                        Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="absolute hidden dropdown-menu bg-white shadow-xl rounded-lg py-2 w-48 border border-gray-100 animate-fade">
-                        <a href="#visi-misi" class="block px-4 py-2 hover:bg-blue-50">Visi-Misi</a>
-                        <a href="#struktur" class="block px-4 py-2 hover:bg-blue-50">Struktur Organisasi</a>
-                    </div>
-                </div>
-                <a href="#akademik" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
-                <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
-            </div>
-
-            <div id="userMenu" class="hidden flex items-center gap-4">
-                <span class="text-sm font-bold text-gray-700">Halo, <span id="userNameDisplay" class="text-blue-600">Mahasiswa</span></span>
-                <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
-            </div>
+<nav class="fixed w-full z-50 glass border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
+        <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-blue-600">
+            SEMABPM<span class="text-gray-800">FT</span>
         </div>
-    </nav>
-
-<!-- NAVBAR -->
-    <nav class="fixed w-full z-50 glass border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-            <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-blue-600">
-                SEMABPM<span class="text-gray-800">FT</span>
+        
+        <div id="publicMenu" class="md:flex space-x-8 items-center font-semibold text-sm">
+            <!-- Menambahkan showHome() agar dashboard tertutup saat diklik -->
+            <a href="#home" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
+            
+            <div class="relative dropdown">
+                <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
+                    Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="absolute hidden dropdown-menu bg-white shadow-xl rounded-lg py-2 w-48 border border-gray-100 animate-fade">
+                    <a href="#visi-misi" onclick="showHome()" class="block px-4 py-2 hover:bg-blue-50">Visi-Misi</a>
+                    <a href="#struktur" onclick="showHome()" class="block px-4 py-2 hover:bg-blue-50">Struktur Organisasi</a>
+                </div>
             </div>
             
-            <!-- Menu Desktop (Otomatis sembunyi di HP via CSS) -->
-            <div id="publicMenu" class="hidden md:flex space-x-8 items-center font-semibold text-sm">
-                <a href="#home" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
-                <div class="relative dropdown">
-                    <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
-                        Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="absolute hidden dropdown-menu bg-white shadow-xl rounded-lg py-2 w-48 border border-gray-100 animate-fade">
-                        <a href="#visi-misi" class="block px-4 py-2 hover:bg-blue-50">Visi-Misi</a>
-                        <a href="#struktur" class="block px-4 py-2 hover:bg-blue-50">Struktur Organisasi</a>
-                    </div>
-                </div>
-                <a href="#akademik" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
-                <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
-            </div>
+            <a href="#akademik" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
+            
+            <!-- Tombol Login hanya muncul jika userMenu tersembunyi -->
+            <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
+        </div>
 
-            <!-- TOMBOL BURGER (Hanya muncul di HP) -->
-            <button id="burgerBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-blue-600 focus:outline-none z-[101]">
-                <svg id="burgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
+        <div id="userMenu" class="hidden flex items-center gap-4">
+            <span class="text-sm font-bold text-gray-700">
+                Halo, <span id="userNameDisplay" class="text-blue-600 uppercase">Mahasiswa</span>
+            </span>
+            <!-- Tombol Toggle Dashboard -->
+            <button onclick="toggleDashboard()" class="text-xs font-bold text-blue-600 border border-blue-200 px-4 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">
+                <span id="dashBtnText">Dashboard</span>
             </button>
+            <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
+        </div>
+    </div>
+</nav>
 
-            <div id="userMenu" class="hidden flex items-center gap-4">
-                <span class="text-sm font-bold text-gray-700">Halo, <span id="userNameDisplay" class="text-blue-600">Mahasiswa</span></span>
-                <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
-            </div>
+    <!-- TOMBOL DASHBOARD BARU -->
+    <button onclick="showDashboard()" class="text-xs font-bold text-blue-600 border border-blue-200 px-4 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">
+        Dashboard
+    </button>
+
+    <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">
+        Keluar
+    </button>
+</div>
+
         </div>
     </nav>
-
-<!-- MOBILE MENU OVERLAY (Tambahkan tepat di bawah </nav>) -->
-    <div id="mobileOverlay" class="hidden fixed inset-0 bg-white z-[100] flex-col items-center justify-center space-y-8 text-2xl font-black uppercase italic tracking-tighter animate-fade">
-        <a href="#home" onclick="toggleMobileMenu()">Home</a>
-        <a href="#visi-misi" onclick="toggleMobileMenu()">Profil</a>
-        <a href="#akademik" onclick="toggleMobileMenu()">Info Akademik</a>
-        <div class="w-12 h-1 bg-blue-600 rounded-full"></div>
-        <button onclick="toggleAuthModal(); toggleMobileMenu()" class="text-blue-600">Login Portal</button>
-    </div>
 
     <!-- CONTENT PUBLIK -->
     <div id="publicContent">
@@ -632,24 +586,60 @@ header .nav-container {
 
         function handleLogout() { auth.signOut().then(() => location.reload()); }
 
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.getElementById('publicContent').classList.add('hidden');
-                document.getElementById('loginBtnNav').classList.add('hidden');
-                document.getElementById('dashboardHome').classList.remove('hidden');
-                document.getElementById('userMenu').classList.remove('hidden');
-                db.collection("users").doc(user.uid).get().then(doc => {
-                    if (doc.exists) {
-                        const userData = doc.data();
-                        document.getElementById('userNameDisplay').innerText = (userData.nama_lengkap || user.email.split('@')[0]).toUpperCase();
-                        if(userData.role === 'admin') {
-                            document.getElementById('adminPanel').classList.remove('hidden');
-                            loadAspirasiForAdmin(); 
-                        }
-                    }
-                });
+ // KODE GABUNGAN BARU
+
+
+auth.onAuthStateChanged(user => {
+    const publicContent = document.getElementById('publicContent');
+    const loginBtnNav = document.getElementById('loginBtnNav');
+    const dashboardHome = document.getElementById('dashboardHome');
+    const userMenu = document.getElementById('userMenu');
+    const userNameDisplay = document.getElementById('userNameDisplay');
+
+    if (user) {
+        if (loginBtnNav) loginBtnNav.classList.add('hidden');
+        if (userMenu) userMenu.classList.remove('hidden');
+        
+        // Tetap tampilkan Home, Dashboard disembunyikan sampai tombol diklik
+        if (publicContent) publicContent.classList.remove('hidden');
+        if (dashboardHome) dashboardHome.classList.add('hidden');
+
+        db.collection("users").doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+                currentUserData = doc.data();
+                if (userNameDisplay) {
+                    userNameDisplay.innerText = (currentUserData.nama_lengkap || user.email.split('@')[0]).toUpperCase();
+                }
+                
+                if(currentUserData.role === 'admin') {
+                    if(document.getElementById('adminPanel')) document.getElementById('adminPanel').classList.remove('hidden');
+                    loadAspirasiForAdmin();    
+                    loadActiveChatsForAdmin(); 
+                } else {
+                    activeChatSessionId = user.uid;
+                    listenToChat(user.uid);    
+                }
             }
         });
+    } else {
+        currentUserData = null;
+        if (publicContent) publicContent.classList.remove('hidden');
+        if (dashboardHome) dashboardHome.classList.add('hidden');
+        if (loginBtnNav) loginBtnNav.classList.remove('hidden');
+        if (userMenu) userMenu.classList.add('hidden');
+    }
+});
+
+function showDashboard() {
+    document.getElementById('publicContent').classList.add('hidden');
+    document.getElementById('dashboardHome').classList.remove('hidden');
+    window.scrollTo(0, 0);
+}
+
+function showHome() {
+    document.getElementById('publicContent').classList.remove('hidden');
+    document.getElementById('dashboardHome').classList.add('hidden');
+}
 
 	
 	let unsubMessages = null;
@@ -736,20 +726,6 @@ function listenToChat(sid) {
         });
 }
 
-// Inisialisasi saat login
-auth.onAuthStateChanged(user => {
-    if (user) {
-        db.collection("users").doc(user.uid).get().then(doc => {
-            currentUserData = doc.data();
-            if(currentUserData.role !== 'admin') {
-                activeChatSessionId = user.uid;
-                listenToChat(user.uid); // Mahasiswa mendengarkan chat-nya sendiri
-            } else {
-                loadActiveChatsForAdmin(); // Admin memuat daftar chat masuk
-            }
-        });
-    }
-});
 
 // Listener tombol Enter
 document.getElementById('chatInput').addEventListener('keypress', (e) => {
@@ -922,20 +898,38 @@ async function sendMessage() {
     }
 }
 
-function toggleMobileMenu() {
-    const overlay = document.getElementById('mobileOverlay');
-    const icon = document.getElementById('burgerIcon');
-    const body = document.body;
+// Fungsi untuk kembali ke halaman utama
+function showHome() {
+    const publicContent = document.getElementById('publicContent');
+    const dashboardHome = document.getElementById('dashboardHome');
+    const dashBtnText = document.getElementById('dashBtnText');
 
-    overlay.classList.toggle('hidden');
-    overlay.classList.toggle('active');
-    body.classList.toggle('mobile-menu-active');
+    if (publicContent && dashboardHome) {
+        publicContent.classList.remove('hidden');
+        dashboardHome.classList.add('hidden');
+        
+        // Reset teks tombol menjadi "Dashboard" karena kita sudah keluar dari dashboard
+        if (dashBtnText) {
+            dashBtnText.innerText = "Dashboard";
+        }
+    }
+}
 
-    // Ubah icon burger menjadi 'X'
-    if (overlay.classList.contains('active')) {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+// Fungsi untuk buka-tutup Dashboard (Toggle)
+function toggleDashboard() {
+    const publicContent = document.getElementById('publicContent');
+    const dashboardHome = document.getElementById('dashboardHome');
+    const dashBtnText = document.getElementById('dashBtnText');
+
+    if (dashboardHome.classList.contains('hidden')) {
+        // Masuk ke Dashboard
+        publicContent.classList.add('hidden');
+        dashboardHome.classList.remove('hidden');
+        if (dashBtnText) dashBtnText.innerText = "Tutup Dashboard";
+        window.scrollTo(0, 0); // Scroll ke atas saat dashboard dibuka
     } else {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+        // Keluar ke Home
+        showHome();
     }
 }
 
