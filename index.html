@@ -103,17 +103,17 @@ header .nav-container {
         </div>
     </div>
 
-    <!-- NAVBAR -->
+   <!-- NAVBAR TEROPTIMASI -->
 <nav class="fixed w-full z-50 glass border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-        <div class="flex-shrink-0 font-bold text-2xl tracking-tighter text-blue-600">
+        <!-- Logo: Ukuran teks mengecil di HP agar tidak makan tempat -->
+        <div class="flex-shrink-0 font-bold text-xl md:text-2xl tracking-tighter text-blue-600">
             SEMABPM<span class="text-gray-800">FT</span>
         </div>
         
-        <div id="publicMenu" class="md:flex space-x-8 items-center font-semibold text-sm">
-            <!-- Menambahkan showHome() agar dashboard tertutup saat diklik -->
+        <!-- Menu Publik: Otomatis sembunyi di HP (hidden), muncul di Desktop (md:flex) -->
+        <div id="publicMenu" class="hidden md:flex space-x-8 items-center font-semibold text-sm">
             <a href="#home" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
-            
             <div class="relative dropdown">
                 <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
                     Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
@@ -123,22 +123,26 @@ header .nav-container {
                     <a href="#struktur" onclick="showHome()" class="block px-4 py-2 hover:bg-blue-50">Struktur Organisasi</a>
                 </div>
             </div>
-            
             <a href="#akademik" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
-            
-            <!-- Tombol Login hanya muncul jika userMenu tersembunyi -->
-            <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
         </div>
 
-        <div id="userMenu" class="hidden flex items-center gap-4">
-            <span class="text-sm font-bold text-gray-700">
-                Halo, <span id="userNameDisplay" class="text-blue-600 uppercase">Mahasiswa</span>
-            </span>
-            <!-- Tombol Toggle Dashboard -->
-            <button onclick="toggleDashboard()" class="text-xs font-bold text-blue-600 border border-blue-200 px-4 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">
-                <span id="dashBtnText">Dashboard</span>
-            </button>
-            <button onclick="handleLogout()" class="text-xs font-bold text-red-500 border border-red-200 px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
+        <!-- Area User & Login -->
+        <div class="flex items-center gap-2 md:gap-4">
+            <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition text-xs md:text-sm">Login</button>
+
+            <div id="userMenu" class="hidden flex items-center gap-2">
+                <!-- Nama User: Sembunyi di HP (hidden), muncul di Tablet/PC (sm:block) -->
+                <span class="hidden sm:block text-xs font-bold text-gray-700">
+                    Halo, <span id="userNameDisplay" class="text-blue-600">User</span>
+                </span>
+                
+                <!-- Tombol Dashboard: Menggunakan whitespace-nowrap agar teks tidak terpotong -->
+                <button onclick="toggleDashboard()" class="text-[10px] md:text-xs font-bold text-blue-600 border border-blue-200 px-3 md:px-4 py-1.5 rounded-full hover:bg-blue-50 transition whitespace-nowrap">
+                    <span id="dashBtnText">Dashboard</span>
+                </button>
+                
+                <button onclick="handleLogout()" class="text-[10px] md:text-xs font-bold text-red-500 border border-red-200 px-2 md:px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
+            </div>
         </div>
     </div>
 </nav>
