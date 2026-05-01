@@ -103,49 +103,67 @@ header .nav-container {
         </div>
     </div>
 
-   <!-- NAVBAR TEROPTIMASI -->
+<!-- NAVBAR FIX: LOGIN, USERNAME, & KELUAR MUNCUL DI DESKTOP & HP -->
 <nav class="fixed w-full z-50 glass border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-        <!-- Logo: Ukuran teks mengecil di HP agar tidak makan tempat -->
+        <!-- Logo -->
         <div class="flex-shrink-0 font-bold text-xl md:text-2xl tracking-tighter text-blue-600">
             SEMABPM<span class="text-gray-800">FT</span>
         </div>
         
-        <!-- Menu Publik: Otomatis sembunyi di HP (hidden), muncul di Desktop (md:flex) -->
+        <!-- Menu Desktop: Navigasi Utama -->
         <div id="publicMenu" class="hidden md:flex space-x-8 items-center font-semibold text-sm">
-            <a href="#home" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Home</a>
-            <div class="relative dropdown">
-                <button class="flex items-center hover:text-blue-600 uppercase tracking-wide">
-                    Profil <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div class="absolute hidden dropdown-menu bg-white shadow-xl rounded-lg py-2 w-48 border border-gray-100 animate-fade">
-                    <a href="#visi-misi" onclick="showHome()" class="block px-4 py-2 hover:bg-blue-50">Visi-Misi</a>
-                    <a href="#struktur" onclick="showHome()" class="block px-4 py-2 hover:bg-blue-50">Struktur Organisasi</a>
-                </div>
-            </div>
-            <a href="#akademik" onclick="showHome()" class="hover:text-blue-600 uppercase tracking-wide">Info Akademik</a>
+            <a href="#home" onclick="showHome()" class="hover:text-blue-600 uppercase">Home</a>
+            <a href="#visi-misi" onclick="showHome()" class="hover:text-blue-600 uppercase">Visi-Misi</a>
+            <a href="#akademik" onclick="showHome()" class="hover:text-blue-600 uppercase">Info Akademik</a>
+            
+            <!-- Tombol Login Desktop: Hanya muncul jika belum login -->
+            <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition shadow-lg shadow-blue-200">Login</button>
         </div>
 
-        <!-- Area User & Login -->
+        <!-- Area User (Muncul setelah login) -->
         <div class="flex items-center gap-2 md:gap-4">
-            <button id="loginBtnNav" onclick="toggleAuthModal()" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition text-xs md:text-sm">Login</button>
-
-            <div id="userMenu" class="hidden flex items-center gap-2">
-                <!-- Nama User: Sembunyi di HP (hidden), muncul di Tablet/PC (sm:block) -->
-                <span class="hidden sm:block text-xs font-bold text-gray-700">
-                    Halo, <span id="userNameDisplay" class="text-blue-600">User</span>
+            <div id="userMenu" class="hidden flex items-center gap-2 md:gap-4">
+                <!-- Username: Sembunyi di HP sangat kecil, muncul di Tablet/Desktop -->
+                <span class="hidden sm:block text-[10px] md:text-sm font-bold text-gray-700">
+                    Halo, <span id="userNameDisplay" class="text-blue-600 uppercase">User</span>
                 </span>
-                
-                <!-- Tombol Dashboard: Menggunakan whitespace-nowrap agar teks tidak terpotong -->
-                <button onclick="toggleDashboard()" class="text-[10px] md:text-xs font-bold text-blue-600 border border-blue-200 px-3 md:px-4 py-1.5 rounded-full hover:bg-blue-50 transition whitespace-nowrap">
+
+                <!-- Tombol Dashboard -->
+                <button onclick="toggleDashboard()" class="text-[10px] md:text-xs font-bold text-blue-600 border border-blue-200 px-3 md:px-4 py-1.5 rounded-full hover:bg-blue-50 whitespace-nowrap">
                     <span id="dashBtnText">Dashboard</span>
                 </button>
-                
-                <button onclick="handleLogout()" class="text-[10px] md:text-xs font-bold text-red-500 border border-red-200 px-2 md:px-3 py-1 rounded-full hover:bg-red-50 transition">Keluar</button>
+
+                <!-- Tombol Keluar Desktop: Sembunyi di HP, Muncul di Desktop -->
+                <button onclick="handleLogout()" class="hidden md:block text-xs font-bold text-red-500 border border-red-200 px-3 py-1.5 rounded-full hover:bg-red-50 transition">
+                    Keluar
+                </button>
             </div>
+
+            <!-- Tombol Burger: Hanya untuk HP -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-600 hover:text-blue-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="burgerIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Menu Mobile Dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-gray-100">
+        <div class="px-4 py-4 space-y-3">
+            <a href="#home" onclick="closeMobileMenu(); showHome();" class="block py-2 text-gray-700 font-bold border-b border-gray-50">HOME</a>
+            <a href="#visi-misi" onclick="closeMobileMenu(); showHome();" class="block py-2 text-gray-700 font-bold border-b border-gray-50">VISI-MISI</a>
+            <a href="#akademik" onclick="closeMobileMenu(); showHome();" class="block py-2 text-gray-700 font-bold border-b border-gray-50">INFO AKADEMIK</a>
+            
+            <!-- Login & Keluar Mobile -->
+            <button id="loginBtnMobile" onclick="closeMobileMenu(); toggleAuthModal();" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold">LOGIN</button>
+            <button id="logoutBtnMobile" onclick="handleLogout()" class="hidden w-full bg-red-50 text-red-600 py-3 rounded-xl font-bold">KELUAR</button>
         </div>
     </div>
 </nav>
+
+
 
     <!-- TOMBOL DASHBOARD BARU -->
     <button onclick="showDashboard()" class="text-xs font-bold text-blue-600 border border-blue-200 px-4 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">
@@ -935,6 +953,40 @@ function toggleDashboard() {
         // Keluar ke Home
         showHome();
     }
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burgerIcon = document.getElementById('burgerIcon');
+    
+    if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        // Ubah icon burger jadi 'X'
+        burgerIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+    } else {
+        closeMobileMenu();
+    }
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burgerIcon = document.getElementById('burgerIcon');
+    menu.classList.add('hidden');
+    // Kembalikan icon jadi burger
+    burgerIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+}
+
+// Pastikan fungsi showHome juga menutup menu mobile jika terbuka
+function showHome() {
+    const publicContent = document.getElementById('publicContent');
+    const dashboardHome = document.getElementById('dashboardHome');
+    const dashBtnText = document.getElementById('dashBtnText');
+
+    if (publicContent) publicContent.classList.remove('hidden');
+    if (dashboardHome) dashboardHome.classList.add('hidden');
+    if (dashBtnText) dashBtnText.innerText = "Dashboard";
+    
+    closeMobileMenu(); // Tutup menu burger setelah klik link
 }
 
     </script>
