@@ -231,31 +231,211 @@ header .nav-container {
             <div class="max-w-4xl mx-auto">
                 <h2 class="text-center text-3xl font-black mb-10 italic uppercase tracking-tighter">Visi & Misi</h2>
                 <div class="flex justify-center mb-8 bg-gray-200 p-1 rounded-xl">
-                    <button onclick="openTab(event, 'tab-sema')" class="tab-btn active w-full py-3 font-bold uppercase tracking-widest rounded-lg transition">SEMA FT</button>
-                    <button onclick="openTab(event, 'tab-bpm')" class="tab-btn w-full py-3 font-bold uppercase tracking-widest rounded-lg transition">BPM FT</button>
                 </div>
 
-                <div id="tab-sema" class="tab-content active animate-fade bg-white p-8 rounded-2xl shadow-sm border border-blue-100">
-                    <h4 class="text-blue-600 font-bold mb-2 uppercase italic tracking-tighter">Visi SEMA</h4>
-                    <p class="italic text-gray-600 mb-6 text-lg">"Terwujudnya SEMA FT yang aktif, harmonis, dan profesional sebagai wadah aspirasi mahasiswa Teknik."</p>
-                    <h4 class="text-blue-600 font-bold mb-2 uppercase italic tracking-tighter">Misi SEMA</h4>
-                    <ul class="text-sm text-gray-600 space-y-3 italic">
-                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 rounded-full"></span>Meningkatkan koordinasi antar organisasi mahasiswa.</li>
-                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 rounded-full"></span>Mengembangkan potensi minat bakat mahasiswa Teknik.</li>
-                    </ul>
+<div class="max-w-6xl mx-auto px-6 mb-8">
+    <div class="flex bg-gray-100 p-2 rounded-2xl">
+        <button onclick="switchTab('sema')" id="btn-sema" class="flex-1 py-4 rounded-xl font-black italic uppercase tracking-widest transition-all duration-300 bg-white shadow-sm text-red-600">SEMA FT</button>
+        <button onclick="switchTab('bpm')" id="btn-bpm" class="flex-1 py-4 rounded-xl font-black italic uppercase tracking-widest transition-all duration-300 text-gray-500 hover:text-blue-600">BPM FT</button>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 pb-20">
+    
+    <div id="content-sema" class="animate-fade bg-white p-12 md:p-16 rounded-[3rem] shadow-xl border border-red-50">
+        <div class="flex items-center gap-6 mb-12">
+            <div class="w-20 h-20 bg-red-600 rounded-[2rem] flex items-center justify-center text-white font-black italic shadow-2xl shadow-red-200 text-4xl">S</div>
+            <div>
+                <h4 class="text-4xl font-black text-gray-900 uppercase italic tracking-tighter">Senat Mahasiswa</h4>
+                <p class="text-xs font-bold text-red-600 uppercase tracking-[0.5em] mt-2">Visi & Misi Strategis SEMA FT-UNTAG</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-5 border-r border-gray-100 pr-8">
+                <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-4">Visi Organisasi</h5>
+                <p class="text-2xl leading-relaxed text-gray-800 italic font-medium">
+                    "Menjadikan mahasiswa Fakultas Teknik sebagai individu yang berkualitas dan berkarakter serta aktif, inovatif dan kolaboratif."
+                </p>
+            </div>
+            <div class="md:col-span-7">
+                <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-6">Misi Strategis</h5>
+                <ul class="space-y-8">
+                    <li class="flex gap-6 group">
+                        <span class="text-4xl font-black italic text-red-100 group-hover:text-red-600 transition-colors">01</span>
+                        <p class="text-lg text-gray-600 italic leading-relaxed pt-2">Mengembangkan potensi dan kreativitas mahasiswa melalui kegiatan akademik maupun non akademik yang positif dan produktif.</p>
+                    </li>
+                    <li class="flex gap-6 group">
+                        <span class="text-4xl font-black italic text-red-100 group-hover:text-red-600 transition-colors">02</span>
+                        <p class="text-lg text-gray-600 italic leading-relaxed pt-2">Membangun Organisasi Senat Mahasiswa yang solid, transparan dan profesional dalam menjalankan roda organisasi.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-bpm" class="hidden animate-fade bg-white p-12 md:p-16 rounded-[3rem] shadow-xl border border-blue-50">
+        <div class="flex items-center gap-6 mb-12">
+            <div class="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center text-white font-black italic shadow-2xl shadow-blue-200 text-4xl">B</div>
+            <div>
+                <h4 class="text-4xl font-black text-gray-900 uppercase italic tracking-tighter">Badan Perwakilan Mahasiswa</h4>
+                <p class="text-xs font-bold text-blue-600 uppercase tracking-[0.5em] mt-2">Visi & Misi Legislatif BPM FT-UNTAG</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+            <div class="md:col-span-5 border-r border-gray-100 pr-8">
+                <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-4">Visi Organisasi</h5>
+                <p class="text-2xl leading-relaxed text-gray-800 italic font-medium">
+                    "Menjadikan lembaga BPM FT - UNTAG Samarinda yang inovatif serta produktif sebagai sumber potensi mahasiswa."
+                </p>
+            </div>
+            <div class="md:col-span-7">
+                <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em] mb-6">Misi Strategis</h5>
+                <ul class="space-y-8">
+                    <li class="flex gap-6 group">
+                        <span class="text-4xl font-black italic text-blue-100 group-hover:text-blue-600 transition-colors">01</span>
+                        <p class="text-lg text-gray-600 italic leading-relaxed pt-2">Membangun internal BPM FT - UNTAG Samarinda yang berkomitmen dengan tugas yang diamanahkan.</p>
+                    </li>
+                    <li class="flex gap-6 group">
+                        <span class="text-4xl font-black italic text-blue-100 group-hover:text-blue-600 transition-colors">02</span>
+                        <p class="text-lg text-gray-600 italic leading-relaxed pt-2">Merancang program kerja yang mampu meningkatkan nilai kebersamaan dan kekeluargaan seluruh masyarakat Fakultas Teknik.</p>
+                    </li>
+                    <li class="flex gap-6 group">
+                        <span class="text-4xl font-black italic text-blue-100 group-hover:text-blue-600 transition-colors">03</span>
+                        <p class="text-lg text-gray-600 italic leading-relaxed pt-2">Mewadahi dan memaksimalkan potensi mahasiswa sehingga dapat berkontribusi untuk fakultas dan masyarakat.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+                
+
+<div class="max-w-7xl mx-auto px-6 py-20">
+    
+    <div class="mb-20 space-y-3">
+        <h3 class="text-4xl font-black uppercase italic tracking-tighter text-gray-900">Filosofi & Makna Logo</h3>
+        <div class="h-1.5 w-32 bg-blue-600"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        
+        <div class="space-y-10">
+            <div class="flex flex-col gap-2">
+                <h4 class="text-5xl font-black text-gray-900 italic tracking-tighter">BPM</h4>
+                <p class="text-xs font-bold text-blue-600 uppercase tracking-[0.4em]">Badan Perwakilan Mahasiswa</p>
+            </div>
+
+            <div class="w-48 h-48 bg-gray-50 rounded-[3rem] border border-gray-100 flex items-center justify-center p-10 group transition-all duration-500 hover:shadow-xl hover:shadow-blue-50/50">
+                <img src="URL_LOGO_BPM" alt="Logo BPM" class="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-500">
+            </div>
+
+            <div class="space-y-6 max-w-xl">
+                <div class="group">
+                    <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span>A. Bentuk</span>
+                        <div class="h-px flex-grow bg-gray-100"></div>
+                    </h5>
+                    <div class="space-y-4 pl-4 border-l-2 border-blue-600/20 group-hover:border-blue-600 transition-colors">
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">1. Belah Ketupat atau Segi Empat Miring:</b>
+                            Melambangkan stabilitas dan arah yang jelas.
+                        </p>
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">2. Bentuk Runcing di Empat Sisi:</b>
+                            Dimaknai sebagai arah aspirasi mahasiswa dari seluruh mahasiswa Fakultas Teknik Universitas 17 Agustus 1945 Samarinda.
+                        </p>
+                    </div>
                 </div>
 
-                <div id="tab-bpm" class="tab-content animate-fade bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
-                    <h4 class="text-gray-800 font-bold mb-2 uppercase italic tracking-tighter">Visi BPM</h4>
-                    <p class="italic text-gray-600 mb-6 text-lg">"Menciptakan iklim organisasi legislatif yang transparan, kritis, dan komunikatif."</p>
-                    <h4 class="text-gray-800 font-bold mb-2 uppercase italic tracking-tighter">Misi BPM</h4>
-                    <ul class="text-sm text-gray-600 space-y-3 italic">
-                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-500 rounded-full"></span>Menyelenggarakan fungsi kontrol yang efektif.</li>
-                        <li class="flex items-center gap-2"><span class="w-2 h-2 bg-gray-500 rounded-full"></span>Mewadahi penyampaian aspirasi secara sistematis.</li>
-                    </ul>
+                <div class="group">
+                    <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span>B. Warna</span>
+                        <div class="h-px flex-grow bg-gray-100"></div>
+                    </h5>
+                    <div class="space-y-4 pl-4 border-l-2 border-gray-200 group-hover:border-blue-900 transition-colors">
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-blue-800 not-italic block mb-1">1. Biru:</b>
+                            Melambangkan intelektualisme, kepercayaan, profesionalisme dan kedalaman ilmu mahasiswa Fakultas Teknik Universitas 17 Agustus 1945 Samarinda.
+                        </p>
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-yellow-600 not-italic block mb-1">2. Kuning:</b>
+                            Melambangkan semangat, optimisme, energi dan kehangatan mahasiswa Fakultas Teknik Universitas 17 Agustus 1945 Samarinda dengan berlandaskan asas kekeluargaan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <p class="text-[11px] text-gray-400 font-bold italic border-t border-gray-100 pt-4">
+                        * Singkatan dari Badan Perwakilan Mahasiswa sebagai bentuk penegasan identitas.
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div class="space-y-10">
+            <div class="flex flex-col gap-2">
+                <h4 class="text-5xl font-black text-gray-900 italic tracking-tighter">SEMA</h4>
+                <p class="text-xs font-bold text-red-600 uppercase tracking-[0.4em]">Senat Mahasiswa</p>
+            </div>
+
+            <div class="w-48 h-48 bg-gray-50 rounded-[3rem] border border-gray-100 flex items-center justify-center p-10 group transition-all duration-500 hover:shadow-xl hover:shadow-red-50/50">
+                <img src="URL_LOGO_SEMA" alt="Logo SEMA" class="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-500">
+            </div>
+
+            <div class="space-y-6 max-w-xl">
+                <div class="group">
+                    <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span>A. Bentuk</span>
+                        <div class="h-px flex-grow bg-gray-100"></div>
+                    </h5>
+                    <div class="space-y-4 pl-4 border-l-2 border-red-600/20 group-hover:border-red-600 transition-colors">
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">1. Belah Ketupat:</b>
+                            Melambangkan stabilitas dan arah yang jelas.
+                        </p>
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">2. Bentuk Runcing di Empat Sisi:</b>
+                            Dimaknai sebagai arah aspirasi mahasiswa dari seluruh mahasiswa Fakultas Teknik Universitas 17 Agustus 1945.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span>C. Simbol</span>
+                        <div class="h-px flex-grow bg-gray-100"></div>
+                    </h5>
+                    <div class="space-y-4 pl-4 border-l-2 border-gray-800 transition-colors">
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">1. Sendi dan Rol:</b>
+                            Melambangkan kekuatan, penopang, stabilitas, dan identitas keilmuan teknik dalam menampung dan memperjuangkan aspirasi mahasiswa.
+                        </p>
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-gray-900 not-italic block mb-1">2. Tiga Garis Gelombang:</b>
+                            Bermakna 3 pilar teknik (solidaritas, senioritas, loyalitas) dan melambangkan Tridarma Perguruan Tinggi.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <h5 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <span>B. Warna</span>
+                        <div class="h-px flex-grow bg-gray-100"></div>
+                    </h5>
+                    <div class="pl-4 border-l-2 border-yellow-500/30 group-hover:border-yellow-500 transition-colors">
+                        <p class="text-sm leading-relaxed text-gray-700 italic">
+                            <b class="text-yellow-700 not-italic block mb-1">1. Kuning:</b>
+                            Melambangkan harapan seluruh mahasiswa Fakultas Teknik Universitas 17 Agustus 1945 Samarinda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
         <section id="struktur" class="py-20 bg-white px-4">
             <div class="max-w-7xl mx-auto">
@@ -515,33 +695,44 @@ header .nav-container {
                     <div class="bg-blue-50 p-6 rounded-2xl border-l-4 border-blue-500">
                         <p class="font-bold text-blue-800 mb-4 uppercase tracking-tight">Daftar Praktikum Wajib (UNTAG Samarinda):</p>
                         <ul class="space-y-4 ml-4">
-                            <!-- ITEM 1 -->
-                            <li>
-                                <span class="font-black text-blue-600">1.</span> Praktikum Ilmu Ukur Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 3</span>
-                                <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Ilmu Ukur Tanah</p>
-                            </li>
-                            <!-- ITEM 2 -->
-                            <li>
-                                <span class="font-black text-blue-600">2.</span> Praktikum Mekanika Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span>
-                                <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Mekanika Tanah I dan II</p>
-                            </li>
-                            <!-- ITEM 3 -->
-                            <li>
-                                <span class="font-black text-blue-600">3.</span> Praktikum Hidrolika - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span>
-                                <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Mekanika Fluida dan Hidrolika</p>
-                            </li>
-                            <!-- ITEM 4 -->
-                            <li>
-                                <span class="font-black text-blue-600">4.</span> Praktikum Beton - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span>
-                                <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Struktur Beton Bertulang I</p>
-                            </li>
-                            <!-- ITEM 5 -->
-                            <li>
-                                <span class="font-black text-blue-600">5.</span> Praktikum Jalan Raya - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span>
-                                <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Perancangan Geometrik Jalan dan Perancangan Perkerasan Jalan</p>
-                            </li>
-                        </ul>
-                    </div>
+    <li onclick="showPracticumDetail('Ilmu Ukur Tanah (ITU)')" class="cursor-pointer hover:bg-blue-100 p-2 rounded-xl transition-all border border-transparent hover:border-blue-300">
+        <span class="font-black text-blue-600">1.</span> Praktikum Ilmu Ukur Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 3</span>
+        <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Ilmu Ukur Tanah</p>
+    </li>
+    <li onclick="showPracticumDetail('Mekanika Tanah')" class="cursor-pointer hover:bg-blue-100 p-2 rounded-xl transition-all border border-transparent hover:border-blue-300">
+        <span class="font-black text-blue-600">2.</span> Praktikum Mekanika Tanah - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span>
+        <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Mekanika Tanah I dan II</p>
+    </li>
+    <li onclick="showPracticumDetail('Hidrolika')" class="cursor-pointer hover:bg-blue-100 p-2 rounded-xl transition-all border border-transparent hover:border-blue-300">
+        <span class="font-black text-blue-600">3.</span> Praktikum Hidrolika - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 5</span>
+        <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Mata Kuliah Mekanika Fluida dan Hidrolika</p>
+    </li>
+    <li onclick="showPracticumDetail('Praktikum Beton')" class="cursor-pointer hover:bg-blue-100 p-2 rounded-xl transition-all border border-transparent hover:border-blue-300">
+        <span class="font-black text-blue-600">4.</span> Praktikum Beton - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span>
+        <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Struktur Beton Bertulang I</p>
+    </li>
+    <li onclick="showPracticumDetail('Praktikum Jalan Raya')" class="cursor-pointer hover:bg-blue-100 p-2 rounded-xl transition-all border border-transparent hover:border-blue-300">
+        <span class="font-black text-blue-600">5.</span> Praktikum Jalan Raya - <span class="bg-blue-200 px-2 rounded text-[10px] font-bold">Semester 6</span>
+        <p class="text-[10px] font-black uppercase text-red-500 italic mt-1">Prasyarat: Perancangan Geometrik Jalan dan Perancangan Perkerasan Jalan</p>
+    </li>
+</ul>
+
+<div id="practicumDetail" class="hidden mt-6 p-6 bg-white rounded-3xl border-2 border-dashed border-blue-200 animate-fade">
+    <h4 id="detailTitle" class="font-black text-blue-600 text-xs mb-4 uppercase italic tracking-widest text-center"></h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a id="linkLaporan" href="#" target="_blank" class="flex items-center justify-center gap-2 p-4 bg-blue-600 text-white rounded-2xl text-[10px] font-bold hover:shadow-lg hover:shadow-blue-200 transition-all">
+            📄 CONTOH LAPORAN
+        </a>
+        <a id="linkSNI" href="#" target="_blank" class="flex items-center justify-center gap-2 p-4 bg-emerald-500 text-white rounded-2xl text-[10px] font-bold hover:shadow-lg hover:shadow-emerald-200 transition-all">
+            📜 SNI TERKAIT
+        </a>
+    </div>
+    <div id="noSNI" class="hidden mt-4 p-3 bg-red-50 rounded-xl border border-red-100">
+        <p class="text-[10px] text-red-500 italic text-center font-bold">
+            *Untuk praktikum ini tidak ada SNI yang wajib dibawa.
+        </p>
+    </div>
+</div>
 
                     <div class="space-y-4">
                         <h3 class="text-xl font-black uppercase italic tracking-tighter text-gray-900">Alur & Syarat Pengajuan</h3>
@@ -562,6 +753,7 @@ header .nav-container {
             </div>
         </div>
     </div>
+</div>
 
     <footer class="py-12 text-center text-gray-400 text-[10px] border-t bg-white uppercase tracking-[0.2em] font-black">
         <p>&copy; 2026 SEMA BPM FT UNTAG Samarinda</p>
@@ -1110,6 +1302,66 @@ async function postVoting() {
     }
 }
 
+// FUNGSI DETAIL PRAKTIKUM
+const practicumDocs = {
+    "Ilmu Ukur Tanah (ITU)": { laporan: "LINK_LAPORAN_DISINI", sni: null },
+    "Mekanika Tanah": { laporan: "LINK_LAPORAN_DISINI", sni: "LINK_SNI_DISINI" },
+    "Hidrolika": { laporan: "LINK_LAPORAN_DISINI", sni: null },
+    "Praktikum Beton": { laporan: "LINK_LAPORAN_DISINI", sni: "LINK_SNI_DISINI" },
+    "Praktikum Jalan Raya": { laporan: "LINK_LAPORAN_DISINI", sni: "LINK_SNI_DISINI" }
+};
+
+function showPracticumDetail(name) {
+    const box = document.getElementById('practicumDetail');
+    const title = document.getElementById('detailTitle');
+    const btnLaporan = document.getElementById('linkLaporan');
+    const btnSNI = document.getElementById('linkSNI');
+    const noteNoSNI = document.getElementById('noSNI');
+
+    const data = practicumDocs[name];
+
+    if (data) {
+        box.classList.remove('hidden');
+        title.innerText = "DOKUMEN PENDUKUNG: " + name;
+        btnLaporan.href = data.laporan;
+
+        if (data.sni) {
+            btnSNI.classList.remove('hidden');
+            btnSNI.href = data.sni;
+            noteNoSNI.classList.add('hidden');
+        } else {
+            btnSNI.classList.add('hidden');
+            noteNoSNI.classList.remove('hidden');
+        }
+        
+        // Scroll otomatis ke box detail agar user melihatnya
+        box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+// FUNGSI VISI MISI BARU
+function switchTab(org) {
+    const semaContent = document.getElementById('content-sema');
+    const bpmContent = document.getElementById('content-bpm');
+    const semaBtn = document.getElementById('btn-sema');
+    const bpmBtn = document.getElementById('btn-bpm');
+
+    if(org === 'sema') {
+        semaContent.classList.remove('hidden');
+        bpmContent.classList.add('hidden');
+        semaBtn.classList.add('bg-white', 'shadow-sm', 'text-red-600');
+        semaBtn.classList.remove('text-gray-500');
+        bpmBtn.classList.remove('bg-white', 'shadow-sm', 'text-blue-600');
+        bpmBtn.classList.add('text-gray-500');
+    } else {
+        bpmContent.classList.remove('hidden');
+        semaContent.classList.add('hidden');
+        bpmBtn.classList.add('bg-white', 'shadow-sm', 'text-blue-600');
+        bpmBtn.classList.remove('text-gray-500');
+        semaBtn.classList.remove('bg-white', 'shadow-sm', 'text-red-600');
+        semaBtn.classList.add('text-gray-500');
+    }
+}
     </script>
 </body>
 </html>
